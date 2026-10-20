@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "repository-intelligence"
+version = "0.3.0"
+description = "Repository Intelligence and Architecture Investigator — M1 snapshots, M2 facts, M3 EngineeringModel, M3.5 ArchitectureModel, M5 graph runtime + diagram export"
+requires-python = ">=3.10"
+dependencies = [
+    "jsonschema>=4.25",
+    "networkx>=3.5",
+    "pydantic>=2.10,<3",
+    "typing_extensions>=4.15",
+]
+
+[project.optional-dependencies]
+llm = [
+    "openai>=1.0",
+]
+# LangGraph orchestration adapter (langgraph_runner) — optional so the
+# core package and its tests stay framework-free; importing the adapter
+# without this extra raises a clear ImportError.
+graph = [
+    "langgraph>=1.0",
+]
+# Middleware-protected create_agent POC (langgraph_poc) — the agent
+# framework seam. langchain-openai is needed only for the demo
+# script's --live mode (caller-supplied ChatOpenAI model); the POC
+# itself imports no provider SDK. Tests importorskip when absent.
+poc = [
+    "langgraph>=1.0",
+    "langchain>=1.4,<2",
+    "langchain-openai>=1.7",
+]
+# RAG extras for repository retrieval (M18).
+rag = [
+    "torch>=2.0",
+    "transformers>=4.40",
+    "tokenizers>=0.19",
+    "safetensors>=0.4",
+    "sentence-transformers>=3.0",
+    "faiss-cpu>=1.8",
+    "numpy>=1.26",
+]
+
+[project.scripts]
+repo-intelligence = "repo_intelligence.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

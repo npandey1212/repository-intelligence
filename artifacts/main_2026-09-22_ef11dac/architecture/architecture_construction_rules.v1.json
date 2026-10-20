@@ -1,0 +1,240 @@
+{
+  "schema_version": "architecture_construction_rules.v1",
+  "description": "Deterministic construction rulebook: agent_definition → concept/agent (AR-N001/AR-M001), fixed orchestration boundary → concept:agent:data-onboarding-agent (AR-N002/AR-M002), and M3 TRIGGERS → architecture TRIGGERS when both endpoints map (AR-R001). Consumes EngineeringModel only. This file is the rulebook, not the graph.",
+  "input": {
+    "knowledge_model_schema": "repository_knowledge_model.v1",
+    "notes": "Read structure exclusively from an existing EngineeringModel (engineering.nodes). Do not re-parse the repository, re-run analyzers, or create a second fact model."
+  },
+  "classification_vocabulary": ["derived"],
+  "node_vocabulary": [
+    {
+      "kind": "concept",
+      "subkinds": ["agent"]
+    }
+  ],
+  "relationship_vocabulary": ["TRIGGERS"],
+  "mapping_vocabulary": ["CONTRIBUTES_TO"],
+  "node_rules": [
+    {
+      "rule_id": "AR-N001",
+      "match": {
+        "kind": "artifact",
+        "subkind": "agent_definition"
+      },
+      "action": "CREATE_ARCHITECTURE_NODE",
+      "node": {
+        "kind": "concept",
+        "subkind": "agent"
+      },
+      "identity": {
+        "template": "concept:agent:{agent_name}",
+        "from": ["agent_name"],
+        "deterministic": true
+      },
+      "classification": "derived",
+      "requires_evidence": true,
+      "notes": "agent_name is the canonical architecture identity derived deterministically from the engineering agent definition path (filename stem / attributes.name). Never embed path, .md extension, mapping rule id, analyzer name, or UUID. Multiple engineering nodes with the same canonical agent_name reuse one architecture node."
+    },
+    {
+      "rule_id": "AR-N002",
+      "match": {
+        "engineering_node_ids": [
+          "artifact:agent_command:.claude/commands/onboard-workflow.md",
+          "artifact:file:SKILLS.md",
+          "artifact:file:docs/workflow-diagrams.md",
+          "artifact:file:runbooks/data-onboarding-agent/README.md"
+        ]
+      },
+      "action": "CREATE_ARCHITECTURE_NODE",
+      "node": {
+        "kind": "concept",
+        "subkind": "agent"
+      },
+      "identity": {
+        "template": "concept:agent:data-onboarding-agent",
+        "from": [],
+        "deterministic": true
+      },
+      "attributes": {
+        "name": "Data Onboarding Agent"
+      },
+      "classification": "derived",
+      "requires_evidence": true,
+      "notes": "Fixed-identity orchestration boundary. Matches only the four explicit M3 engineering node ids that collectively document the Data Onboarding Agent (command, skills index, workflow docs, runbook). Not a filename scan; not analyzer-derived. Evidence is the union of contributing M3 node evidence."
+    }
+  ],
+  "mapping_rules": [
+    {
+      "rule_id": "AR-M001",
+      "match": {
+        "kind": "artifact",
+        "subkind": "agent_definition"
+      },
+      "action": "CREATE_MAPPING",
+      "relationship": {
+        "kind": "CONTRIBUTES_TO"
+      },
+      "source": {
+        "from_engineering_node": true
+      },
+      "target": {
+        "from_node_rule": "AR-N001"
+      },
+      "classification": "derived",
+      "requires_evidence": true,
+      "notes": "engineering agent_definition → architecture concept/agent via CONTRIBUTES_TO. Mapping evidence is the contributing engineering node evidence."
+    },
+    {
+      "rule_id": "AR-M002",
+      "match": {
+        "engineering_node_ids": [
+          "artifact:agent_command:.claude/commands/onboard-workflow.md",
+          "artifact:file:SKILLS.md",
+          "artifact:file:docs/workflow-diagrams.md",
+          "artifact:file:runbooks/data-onboarding-agent/README.md"
+        ]
+      },
+      "action": "CREATE_MAPPING",
+      "relationship": {
+        "kind": "CONTRIBUTES_TO"
+      },
+      "source": {
+        "from_engineering_node": true
+      },
+      "target": {
+        "from_node_rule": "AR-N002"
+      },
+      "classification": "derived",
+      "requires_evidence": true,
+      "notes": "Each listed orchestration source engineering node CONTRIBUTES_TO concept:agent:data-onboarding-agent. Mapping evidence is that engineering node's M3 evidence."
+    }
+  ],
+  "relationship_rules": [
+    {
+      "rule_id": "AR-R001",
+      "action": "CREATE_ARCHITECTURE_RELATIONSHIP",
+      "relationship": {
+        "kind": "TRIGGERS",
+        "source_engineering_relationship": "TRIGGERS"
+      },
+      "source_resolution": {
+        "from_engineering_node_via_mapping": true
+      },
+      "target_resolution": {
+        "from_engineering_node_via_mapping": true
+      },
+      "classification": "derived",
+      "requires_evidence": true,
+      "notes": "Elevate M3 TRIGGERS to architecture TRIGGERS only when both engineering endpoints resolve through existing mappings to architecture nodes. Evidence = M3 relationship evidence + source mapping evidence + target mapping evidence. Missing mappings → architecture.unresolved[], never a canonical edge."
+    }
+  ],
+  "identity_rules": [
+    {
+      "rule_id": "id.architecture_node.concept_agent",
+      "applies_to": "architecture_node",
+      "template": "concept:agent:{agent_name}",
+      "forbidden": [
+        "path",
+        "file_extension",
+        "engineering_node_id",
+        "mapping_rule_id",
+        "analyzer",
+        "uuid",
+        "timestamp",
+        "random"
+      ],
+      "notes": "Architecture identity describes the architectural concept, not the implementation file (not concept:agent:src/foo.py or concept:agent:agent_definition:foo.md)."
+    },
+    {
+      "rule_id": "id.mapping.default",
+      "applies_to": "mapping",
+      "template": "map:{kind}:{source}:{target}",
+      "forbidden": [
+        "analyzer",
+        "uuid",
+        "timestamp",
+        "random"
+      ],
+      "notes": "Stable mapping identity for the same engineering source, architecture target, and mapping kind."
+    },
+    {
+      "rule_id": "id.architecture_relationship.default",
+      "applies_to": "architecture_relationship",
+      "template": "rel:{kind}:{source}:{target}",
+      "forbidden": [
+        "engineering_node_id",
+        "mapping_rule_id",
+        "analyzer",
+        "uuid",
+        "timestamp",
+        "random"
+      ],
+      "notes": "Stable architecture relationship identity over architecture node ids. Same kind + endpoints → same id; no timestamps, UUIDs, or rule execution order."
+    }
+  ],
+  "evidence_rules": {
+    "canonical_architecture_node_requires_evidence": true,
+    "canonical_mapping_requires_evidence": true,
+    "canonical_architecture_relationship_requires_evidence": true,
+    "unresolved_retains_evidence": true,
+    "minimum_evidence": 1,
+    "propagation": "copy_engineering_node_evidence_refs",
+    "notes": "No evidence → no canonical architectural claim. When multiple engineering nodes contribute to one architecture node, merge and deduplicate their evidence refs deterministically."
+  },
+  "unresolved_rules": {
+    "reasons": [
+      "target_not_resolved",
+      "ambiguous_identity",
+      "missing_endpoint",
+      "unsupported_relationship"
+    ],
+    "container": "architecture.unresolved[]",
+    "excluded_from_canonical_architecture": true,
+    "required_fields": ["source", "target", "kind", "reason", "evidence"],
+    "notes": "If a canonical agent identity cannot be established confidently from the EngineeringModel, park the candidate in architecture.unresolved[] instead of inventing an identity. Do not guess unsupported architecture claims."
+  },
+  "validation_rules": {
+    "unique_architecture_node_ids": true,
+    "unique_architecture_relationship_ids": true,
+    "mapping_source_must_exist": true,
+    "mapping_target_must_exist": true,
+    "relationship_source_must_exist": true,
+    "relationship_target_must_exist": true,
+    "canonical_architecture_node_requires_evidence": true,
+    "canonical_mapping_requires_evidence": true,
+    "canonical_architecture_relationship_requires_evidence": true,
+    "deterministic_identity": true,
+    "deterministic_output_order": true,
+    "unsupported_claims_not_in_canonical_relationships": true,
+    "notes": "architecture.relationships contains only validated TRIGGERS edges created by AR-R001. Engineering CONTAINS/IMPORTS/DEPENDS_ON must not be copied. Unmapped TRIGGERS candidates stay in architecture.unresolved[]."
+  },
+  "deferred": [
+    "agent_command → workflow",
+    "agent_config → agent",
+    "mcp_config → interface",
+    "mcp_server_source → external_system",
+    "Python class named Agent → architectural agent",
+    "external package → external system",
+    "DEPENDS_ON",
+    "EXPOSES",
+    "CONSUMES",
+    "PRODUCES",
+    "USES",
+    "COMMUNICATES_WITH",
+    "LLM inference",
+    "RAG",
+    "embeddings",
+    "ReAct",
+    "graph databases",
+    "Neo4j",
+    "Neptune",
+    "NetworkX as canonical storage",
+    "architecture diagram generation",
+    "C4 modeling",
+    "runtime architecture inference",
+    "deployment architecture",
+    "data lineage",
+    "Tree-sitter",
+    "new repository analyzers"
+  ]
+}

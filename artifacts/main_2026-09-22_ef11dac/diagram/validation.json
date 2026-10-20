@@ -1,0 +1,14 @@
+{
+  "schema_version": "diagram_validation.v1",
+  "status": "PASS",
+  "problems": [],
+  "counts": {
+    "architecture_nodes": 12,
+    "architecture_relationships": 7,
+    "architecture_unresolved": 0,
+    "diagram_nodes": 12,
+    "diagram_relationships": 7
+  },
+  "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+  "snapshot_id": "main_2026-09-22_ef11dac"
+}

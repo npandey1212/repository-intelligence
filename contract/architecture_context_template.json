@@ -1,0 +1,55 @@
+{
+  "schema_version": "architecture_context.v1",
+  "repository": {
+    "name": "",
+    "description": "",
+    "purpose": "",
+    "project_type": "",
+    "primary_domains": []
+  },
+  "structure": {
+    "overview": "",
+    "key_directories": [],
+    "key_files": [],
+    "important_artifacts": []
+  },
+  "technology": {
+    "languages": [],
+    "frameworks": [],
+    "libraries": [],
+    "infrastructure": [],
+    "external_services": []
+  },
+  "architecture": {
+    "overview": "",
+    "components": [],
+    "relationships": [],
+    "boundaries": []
+  },
+  "workflows": {
+    "overview": "",
+    "workflows": []
+  },
+  "interfaces": {
+    "overview": "",
+    "apis": [],
+    "commands": [],
+    "events": [],
+    "external_interfaces": []
+  },
+  "operations": {
+    "build": [],
+    "test": [],
+    "run": [],
+    "deploy": []
+  },
+  "documentation": {
+    "overview": "",
+    "key_documents": []
+  },
+  "evidence": {
+    "sources": [],
+    "known_unknowns": [],
+    "analysis_limitations": []
+  }
+}

@@ -1,0 +1,437 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/architecture_construction_rules.v1.json",
+  "title": "architecture_construction_rules.v1",
+  "description": "Deterministic construction rulebook: how EngineeringModel nodes become ArchitectureModel concepts and mappings. Consumes EngineeringModel only — never re-parses the repository. Not the graph itself.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "input",
+    "node_rules",
+    "mapping_rules",
+    "relationship_rules",
+    "identity_rules",
+    "evidence_rules",
+    "unresolved_rules",
+    "validation_rules",
+    "deferred"
+  ],
+  "$defs": {
+    "EngineeringMatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "type": "string", "minLength": 1 },
+        "subkind": { "type": "string", "minLength": 1 },
+        "engineering_node_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Explicit M3 engineering node identities. When present, only these ids match (no kind/subkind scan)."
+        }
+      },
+      "anyOf": [
+        { "required": ["engineering_node_ids"] },
+        { "required": ["kind", "subkind"] }
+      ],
+      "description": "Selects EngineeringModel nodes by kind/subkind and/or explicit engineering_node_ids."
+    },
+    "NodeAttributes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 }
+      },
+      "description": "Fixed architecture node attributes (e.g. display name for a fixed-identity concept)."
+    },
+    "ArchitectureNodeRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "subkind"],
+      "properties": {
+        "kind": { "type": "string", "minLength": 1 },
+        "subkind": { "type": "string", "minLength": 1 }
+      }
+    },
+    "IdentityTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template", "from"],
+      "properties": {
+        "template": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Format string with {placeholders}. Deterministic; no UUIDs, timestamps, analyzer names, or mapping rule ids."
+        },
+        "from": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Stable inputs used to fill the template (e.g. agent_name derived from filename stem)."
+        },
+        "deterministic": { "type": "boolean", "const": true }
+      }
+    },
+    "NodeRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "match",
+        "action",
+        "node",
+        "identity",
+        "classification",
+        "requires_evidence"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "pattern": "^AR-N[0-9]{3}$"
+        },
+        "match": { "$ref": "#/$defs/EngineeringMatch" },
+        "action": {
+          "type": "string",
+          "enum": ["CREATE_ARCHITECTURE_NODE", "UNRESOLVED", "IGNORE"]
+        },
+        "node": { "$ref": "#/$defs/ArchitectureNodeRef" },
+        "identity": { "$ref": "#/$defs/IdentityTemplate" },
+        "attributes": { "$ref": "#/$defs/NodeAttributes" },
+        "classification": {
+          "type": "string",
+          "enum": ["derived"]
+        },
+        "requires_evidence": { "type": "boolean", "const": true },
+        "notes": { "type": "string" }
+      }
+    },
+    "MappingRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "match",
+        "action",
+        "relationship",
+        "classification",
+        "requires_evidence"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "pattern": "^AR-M[0-9]{3}$"
+        },
+        "match": { "$ref": "#/$defs/EngineeringMatch" },
+        "action": {
+          "type": "string",
+          "enum": ["CREATE_MAPPING", "UNRESOLVED"]
+        },
+        "relationship": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": { "type": "string", "const": "CONTRIBUTES_TO" }
+          }
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["from_engineering_node"],
+          "properties": {
+            "from_engineering_node": { "type": "boolean", "const": true }
+          }
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["from_node_rule"],
+          "properties": {
+            "from_node_rule": { "type": "string", "minLength": 1 }
+          }
+        },
+        "classification": {
+          "type": "string",
+          "enum": ["derived"]
+        },
+        "requires_evidence": { "type": "boolean", "const": true },
+        "notes": { "type": "string" }
+      }
+    },
+    "RelationshipRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "action",
+        "relationship",
+        "source_resolution",
+        "target_resolution",
+        "classification",
+        "requires_evidence"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "pattern": "^AR-R[0-9]{3}$"
+        },
+        "action": {
+          "type": "string",
+          "enum": ["CREATE_ARCHITECTURE_RELATIONSHIP"]
+        },
+        "relationship": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "source_engineering_relationship"],
+          "properties": {
+            "kind": { "type": "string", "const": "TRIGGERS" },
+            "source_engineering_relationship": {
+              "type": "string",
+              "const": "TRIGGERS"
+            }
+          },
+          "description": "Only M3 TRIGGERS may elevate to architecture TRIGGERS."
+        },
+        "source_resolution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["from_engineering_node_via_mapping"],
+          "properties": {
+            "from_engineering_node_via_mapping": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "description": "Resolve engineering source node → architecture node via existing mapping."
+        },
+        "target_resolution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["from_engineering_node_via_mapping"],
+          "properties": {
+            "from_engineering_node_via_mapping": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "description": "Resolve engineering target node → architecture node via existing mapping."
+        },
+        "classification": {
+          "type": "string",
+          "enum": ["derived"]
+        },
+        "requires_evidence": { "type": "boolean", "const": true },
+        "notes": { "type": "string" }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "architecture_construction_rules.v1"
+    },
+    "description": { "type": "string" },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["knowledge_model_schema", "notes"],
+      "properties": {
+        "knowledge_model_schema": {
+          "type": "string",
+          "const": "repository_knowledge_model.v1"
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "classification_vocabulary": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "node_vocabulary": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "subkinds"],
+        "properties": {
+          "kind": { "type": "string", "minLength": 1 },
+          "subkinds": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "relationship_vocabulary": {
+      "type": "array",
+      "description": "Architecture relationship kinds. Only TRIGGERS is allowed in this refinement.",
+      "items": {
+        "type": "string",
+        "enum": ["TRIGGERS"]
+      }
+    },
+    "mapping_vocabulary": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "node_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/NodeRule" }
+    },
+    "mapping_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/MappingRule" }
+    },
+    "relationship_rules": {
+      "type": "array",
+      "description": "Architecture relationship construction rules. Exactly AR-R001 (TRIGGERS) in this refinement.",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/RelationshipRule" }
+    },
+    "identity_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "applies_to", "template", "forbidden"],
+        "properties": {
+          "rule_id": { "type": "string", "minLength": 1 },
+          "applies_to": {
+            "type": "string",
+            "enum": ["architecture_node", "mapping", "architecture_relationship"]
+          },
+          "template": { "type": "string", "minLength": 1 },
+          "forbidden": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "evidence_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_architecture_node_requires_evidence",
+        "canonical_mapping_requires_evidence",
+        "canonical_architecture_relationship_requires_evidence",
+        "unresolved_retains_evidence",
+        "minimum_evidence",
+        "propagation"
+      ],
+      "properties": {
+        "canonical_architecture_node_requires_evidence": {
+          "type": "boolean",
+          "const": true
+        },
+        "canonical_mapping_requires_evidence": {
+          "type": "boolean",
+          "const": true
+        },
+        "canonical_architecture_relationship_requires_evidence": {
+          "type": "boolean",
+          "const": true
+        },
+        "unresolved_retains_evidence": { "type": "boolean", "const": true },
+        "minimum_evidence": { "type": "integer", "const": 1 },
+        "propagation": {
+          "type": "string",
+          "const": "copy_engineering_node_evidence_refs"
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "unresolved_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reasons",
+        "container",
+        "excluded_from_canonical_architecture",
+        "required_fields"
+      ],
+      "properties": {
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "target_not_resolved",
+              "ambiguous_identity",
+              "missing_endpoint",
+              "unsupported_relationship"
+            ]
+          }
+        },
+        "container": { "type": "string", "const": "architecture.unresolved[]" },
+        "excluded_from_canonical_architecture": {
+          "type": "boolean",
+          "const": true
+        },
+        "required_fields": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "validation_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unique_architecture_node_ids",
+        "unique_architecture_relationship_ids",
+        "mapping_source_must_exist",
+        "mapping_target_must_exist",
+        "relationship_source_must_exist",
+        "relationship_target_must_exist",
+        "canonical_architecture_node_requires_evidence",
+        "canonical_mapping_requires_evidence",
+        "canonical_architecture_relationship_requires_evidence",
+        "deterministic_identity",
+        "deterministic_output_order",
+        "unsupported_claims_not_in_canonical_relationships"
+      ],
+      "properties": {
+        "unique_architecture_node_ids": { "type": "boolean", "const": true },
+        "unique_architecture_relationship_ids": { "type": "boolean", "const": true },
+        "mapping_source_must_exist": { "type": "boolean", "const": true },
+        "mapping_target_must_exist": { "type": "boolean", "const": true },
+        "relationship_source_must_exist": { "type": "boolean", "const": true },
+        "relationship_target_must_exist": { "type": "boolean", "const": true },
+        "canonical_architecture_node_requires_evidence": {
+          "type": "boolean",
+          "const": true
+        },
+        "canonical_mapping_requires_evidence": {
+          "type": "boolean",
+          "const": true
+        },
+        "canonical_architecture_relationship_requires_evidence": {
+          "type": "boolean",
+          "const": true
+        },
+        "deterministic_identity": { "type": "boolean", "const": true },
+        "deterministic_output_order": { "type": "boolean", "const": true },
+        "unsupported_claims_not_in_canonical_relationships": {
+          "type": "boolean",
+          "const": true
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "deferred": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    }
+  }
+}

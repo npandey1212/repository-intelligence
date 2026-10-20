@@ -1,0 +1,28 @@
+-e .
+
+jsonschema==4.25.1
+networkx==3.5
+pydantic==2.10.6
+typing_extensions==4.15.0
+
+PyYAML==6.0.3
+toml==0.10.2
+
+# openai 3.35.1 pulled by langchain-openai (poc extra); the
+# provider-neutral llm contract and its tests pass on both 1.x and 3.x.
+openai==3.35.1
+tiktoken==0.14.0
+regex==2026.9.29
+
+# LangGraph orchestration adapter (optional extra: pip install -e .[graph])
+langgraph==1.2.15
+
+# create_agent POC (optional extra: pip install -e .[poc])
+langchain==1.4.6
+langchain-core==1.6.11
+langchain-openai==1.7.2
+
+pytest==8.4.2
+
+sentence-transformers==6.1.0
+faiss-cpu==1.15.1

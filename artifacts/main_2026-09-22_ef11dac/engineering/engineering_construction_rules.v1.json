@@ -1,0 +1,1508 @@
+{
+  "schema_version": "engineering_construction_rules.v1",
+  "description": "Deterministic construction rulebook mapping frozen repository_facts.v2 observations to EngineeringModel nodes, relationships, identities, evidence, unresolved candidates, and validation invariants. This file is the rulebook, not the graph.",
+  "input": {
+    "fact_schema": "repository_facts.v2",
+    "notes": "Read repository observations exclusively from facts[]. Do not use counts() or removed repository.files keys."
+  },
+  "classification_vocabulary": [
+    "observed",
+    "derived",
+    "inferred",
+    "conflicting"
+  ],
+  "node_vocabulary": [
+    {
+      "kind": "artifact",
+      "subkinds": [
+        "file",
+        "directory",
+        "agent_definition",
+        "agent_command",
+        "agent_config",
+        "mcp_config",
+        "mcp_server_source"
+      ]
+    },
+    {
+      "kind": "code_entity",
+      "subkinds": [
+        "module",
+        "class",
+        "function"
+      ]
+    },
+    {
+      "kind": "external_package",
+      "subkinds": [
+        "package"
+      ]
+    },
+    {
+      "kind": "tool",
+      "subkinds": [
+        "mcp",
+        "built_in"
+      ]
+    },
+    {
+      "kind": "mcp_server",
+      "subkinds": [
+        "registered"
+      ]
+    }
+  ],
+  "relationship_vocabulary": [
+    "IMPORTS",
+    "DEPENDS_ON",
+    "CONTAINS",
+    "TRIGGERS",
+    "DECLARES",
+    "EXPOSED_BY",
+    "CONFIGURED_BY"
+  ],
+  "node_rules": [
+    {
+      "rule_id": "node.file.repository_file",
+      "match": {
+        "fact_type": "file",
+        "kind": "repository_file"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "artifact",
+        "subkind": "file"
+      },
+      "identity": {
+        "template": "artifact:file:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity",
+      "notes": "Canonical physical file node. Configuration/documentation/test facts for the same path must not create a second file node."
+    },
+    {
+      "rule_id": "node.directory.repository_directory",
+      "match": {
+        "fact_type": "directory",
+        "kind": "repository_directory"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "artifact",
+        "subkind": "directory"
+      },
+      "identity": {
+        "template": "artifact:directory:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity"
+    },
+    {
+      "rule_id": "node.entity.module",
+      "match": {
+        "fact_type": "entity",
+        "kind": "module"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "code_entity",
+        "subkind": "module"
+      },
+      "identity": {
+        "template": "code_entity:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity",
+      "notes": "Identity describes the engineering module (repository path), not the analyzer that discovered it (no python-module:/ast-module: prefixes)."
+    },
+    {
+      "rule_id": "node.entity.class",
+      "match": {
+        "fact_type": "entity",
+        "kind": "class"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "code_entity",
+        "subkind": "class"
+      },
+      "identity": {
+        "template": "code_entity:{entity_key}",
+        "from_attributes": [
+          "path",
+          "qualified_name"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity",
+      "notes": "Identity normalizes M2 path + qualified_name so the repository path appears once (e.g. code_entity:src/service.py::Service)."
+    },
+    {
+      "rule_id": "node.entity.function",
+      "match": {
+        "fact_type": "entity",
+        "kind": "function"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "code_entity",
+        "subkind": "function"
+      },
+      "identity": {
+        "template": "code_entity:{entity_key}",
+        "from_attributes": [
+          "path",
+          "qualified_name"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity",
+      "notes": "Identity normalizes M2 path + qualified_name so the repository path appears once (e.g. code_entity:src/service.py::run). Redefined symbols share qualified_name; line is not part of node identity in V1."
+    },
+    {
+      "rule_id": "node.artifact.agent_definition",
+      "match": {
+        "fact_type": "artifact",
+        "kind": "agent_definition"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "artifact",
+        "subkind": "agent_definition"
+      },
+      "identity": {
+        "template": "artifact:agent_definition:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity",
+      "notes": "Specialized repository artifact. Not architecture concept:agent / service / workflow."
+    },
+    {
+      "rule_id": "node.artifact.agent_command",
+      "match": {
+        "fact_type": "artifact",
+        "kind": "agent_command"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "artifact",
+        "subkind": "agent_command"
+      },
+      "identity": {
+        "template": "artifact:agent_command:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity"
+    },
+    {
+      "rule_id": "node.artifact.agent_config",
+      "match": {
+        "fact_type": "artifact",
+        "kind": "agent_config"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "artifact",
+        "subkind": "agent_config"
+      },
+      "identity": {
+        "template": "artifact:agent_config:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity"
+    },
+    {
+      "rule_id": "node.artifact.mcp_config",
+      "match": {
+        "fact_type": "artifact",
+        "kind": "mcp_config"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "artifact",
+        "subkind": "mcp_config"
+      },
+      "identity": {
+        "template": "artifact:mcp_config:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity"
+    },
+    {
+      "rule_id": "node.artifact.mcp_server_source",
+      "match": {
+        "fact_type": "artifact",
+        "kind": "mcp_server_source"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "artifact",
+        "subkind": "mcp_server_source"
+      },
+      "identity": {
+        "template": "artifact:mcp_server_source:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity"
+    },
+    {
+      "rule_id": "node.artifact.mcp_documentation",
+      "match": {
+        "fact_type": "artifact",
+        "kind": "mcp_documentation"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "mcp_documentation"
+      },
+      "identity": {
+        "template": "artifact:mcp_documentation:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: describes an aspect of a path that already has (or may have) a canonical file/artifact node."
+    },
+    {
+      "rule_id": "node.artifact.markdown",
+      "match": {
+        "fact_type": "artifact",
+        "kind": "markdown"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "markdown"
+      },
+      "identity": {
+        "template": "artifact:markdown:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: same physical file may already be artifact:file."
+    },
+    {
+      "rule_id": "node.artifact.python",
+      "match": {
+        "fact_type": "artifact",
+        "kind": "python"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "python"
+      },
+      "identity": {
+        "template": "artifact:python:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: MCP/python side facts; module nodes come from entity/module."
+    },
+    {
+      "rule_id": "node.artifact.shell",
+      "match": {
+        "fact_type": "artifact",
+        "kind": "shell"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "shell"
+      },
+      "identity": {
+        "template": "artifact:shell:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: same physical file may already be artifact:file."
+    },
+    {
+      "rule_id": "node.configuration.file",
+      "match": {
+        "fact_type": "configuration",
+        "kind": "file"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "configuration"
+      },
+      "identity": {
+        "template": "artifact:configuration:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: configuration is another classification of an existing repository file."
+    },
+    {
+      "rule_id": "node.configuration.json",
+      "match": {
+        "fact_type": "configuration",
+        "kind": "json"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "configuration"
+      },
+      "identity": {
+        "template": "artifact:configuration:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: do not duplicate the physical file node."
+    },
+    {
+      "rule_id": "node.configuration.toml",
+      "match": {
+        "fact_type": "configuration",
+        "kind": "toml"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "configuration"
+      },
+      "identity": {
+        "template": "artifact:configuration:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: do not duplicate the physical file node."
+    },
+    {
+      "rule_id": "node.configuration.yaml",
+      "match": {
+        "fact_type": "configuration",
+        "kind": "yaml"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "configuration"
+      },
+      "identity": {
+        "template": "artifact:configuration:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: do not duplicate the physical file node."
+    },
+    {
+      "rule_id": "node.documentation.documentation",
+      "match": {
+        "fact_type": "documentation",
+        "kind": "documentation"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "documentation"
+      },
+      "identity": {
+        "template": "artifact:documentation:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: documentation classification of an existing path."
+    },
+    {
+      "rule_id": "node.documentation.markdown",
+      "match": {
+        "fact_type": "documentation",
+        "kind": "markdown"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "documentation"
+      },
+      "identity": {
+        "template": "artifact:documentation:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: do not create a second node solely because docs classification differs from file."
+    },
+    {
+      "rule_id": "node.documentation.readme",
+      "match": {
+        "fact_type": "documentation",
+        "kind": "readme"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "documentation"
+      },
+      "identity": {
+        "template": "artifact:documentation:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only."
+    },
+    {
+      "rule_id": "node.documentation.runbook",
+      "match": {
+        "fact_type": "documentation",
+        "kind": "runbook"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "documentation"
+      },
+      "identity": {
+        "template": "artifact:documentation:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only."
+    },
+    {
+      "rule_id": "node.test.test_directory",
+      "match": {
+        "fact_type": "test",
+        "kind": "test_directory"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "test"
+      },
+      "identity": {
+        "template": "artifact:test:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: directory already has artifact:directory when present."
+    },
+    {
+      "rule_id": "node.test.test_file",
+      "match": {
+        "fact_type": "test",
+        "kind": "test_file"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "artifact",
+        "subkind": "test"
+      },
+      "identity": {
+        "template": "artifact:test:{path}",
+        "from_attributes": [
+          "path"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Evidence-only: do not duplicate artifact:file for the same path."
+    },
+    {
+      "rule_id": "node.dependency.dependencies",
+      "match": {
+        "fact_type": "dependency",
+        "kind": "dependencies"
+      },
+      "action": "EVIDENCE_ONLY",
+      "node": {
+        "kind": "external_package",
+        "subkind": "package"
+      },
+      "identity": {
+        "template": "external_package:{name}",
+        "from_attributes": [
+          "name"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Dependency facts primarily drive DEPENDS_ON relationship rules; external package nodes are created only when a DEPENDS_ON target is resolved (see relationship_rules). This entry documents the fact type without emitting a node by itself."
+    },
+    {
+      "rule_id": "node.tool.mcp_tool",
+      "match": {
+        "fact_type": "tool",
+        "kind": "mcp_tool"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "tool",
+        "subkind": "mcp"
+      },
+      "identity": {
+        "template": "tool:mcp:{server}:{name}",
+        "from_attributes": [
+          "server",
+          "name"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity",
+      "notes": "A tool exposed by an MCP server. Identity is the server-scoped name (the MCP calling identity server/tool) so two servers may legitimately expose same-named tools without ambiguity. Evidence must cite an explicit tool registry entry or an explicit namespaced agent tool declaration - never a Python function name or a doc mention."
+    },
+    {
+      "rule_id": "node.tool.built_in_tool",
+      "match": {
+        "fact_type": "tool",
+        "kind": "built_in_tool"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "tool",
+        "subkind": "built_in"
+      },
+      "identity": {
+        "template": "tool:builtin:{name}",
+        "from_attributes": [
+          "name"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity",
+      "notes": "A tool declared by an agent without an MCP server namespace (bare entry in an explicit agent tool declaration). The built_in subkind states what the evidence shows - no server namespace - not which host runtime provides it. Declarations whose bare name also appears as an MCP tool name stay ambiguous (unresolved) instead of becoming this node."
+    },
+    {
+      "rule_id": "node.mcp_server.registered",
+      "match": {
+        "fact_type": "mcp_server",
+        "kind": "registered"
+      },
+      "action": "CREATE_NODE",
+      "node": {
+        "kind": "mcp_server",
+        "subkind": "registered"
+      },
+      "identity": {
+        "template": "mcp_server:{name}",
+        "from_attributes": [
+          "name"
+        ],
+        "deterministic": true
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "dedupe_by": "identity",
+      "notes": "Registered MCP server identity (name), established only by explicit configuration or tool-registry entries. Distinct from artifact/mcp_server_source (a path classification of a source file): the registered server is a semantic entity, the source file is an artifact."
+    }
+  ],
+  "relationship_rules": [
+    {
+      "rule_id": "rel.import.import",
+      "match": {
+        "fact_type": "import",
+        "kind": "import"
+      },
+      "action": "CREATE_RELATIONSHIP_IF_RESOLVED",
+      "relationship": {
+        "kind": "IMPORTS"
+      },
+      "source": {
+        "resolve": "path_node",
+        "from_attributes": [
+          "path"
+        ],
+        "node_kind": "artifact",
+        "node_subkind": "file",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "imported_module",
+        "from_attributes": [
+          "module"
+        ],
+        "strategies": [
+          "exact_module_path",
+          "dotted_module_to_path",
+          "suffix_path_match"
+        ],
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "target_not_resolved"
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Do not create IMPORTS if the target cannot be resolved confidently; emit an unresolved candidate instead. Unresolved targets (stdlib, third-party) are not manufactured as graph nodes from the module string alone."
+    },
+    {
+      "rule_id": "rel.import.import_from",
+      "match": {
+        "fact_type": "import",
+        "kind": "import_from"
+      },
+      "action": "CREATE_RELATIONSHIP_IF_RESOLVED",
+      "relationship": {
+        "kind": "IMPORTS"
+      },
+      "source": {
+        "resolve": "path_node",
+        "from_attributes": [
+          "path"
+        ],
+        "node_kind": "artifact",
+        "node_subkind": "file",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "imported_module",
+        "from_attributes": [
+          "module",
+          "names"
+        ],
+        "strategies": [
+          "exact_module_path",
+          "dotted_module_to_path",
+          "suffix_path_match"
+        ],
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "target_not_resolved"
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "from foo.bar import Baz — resolve foo.bar (and/or Baz) only against known engineering entities/modules. Do not manufacture a target because the imported name string exists."
+    },
+    {
+      "rule_id": "rel.dependency.dependencies",
+      "match": {
+        "fact_type": "dependency",
+        "kind": "dependencies"
+      },
+      "action": "CREATE_RELATIONSHIP_IF_RESOLVED",
+      "relationship": {
+        "kind": "DEPENDS_ON"
+      },
+      "source": {
+        "resolve": "path_node",
+        "from_attributes": [
+          "source"
+        ],
+        "node_kind": "artifact",
+        "node_subkind": "file",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "external_package",
+        "from_attributes": [
+          "name"
+        ],
+        "strategies": [
+          "declared_name"
+        ],
+        "node_kind": "external_package",
+        "node_subkind": "package",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "target_not_resolved"
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Target vocabulary is external_package:<name> (documented, evolvable). If name is missing or non-deterministic, unresolved — never a fake target. Future milestones may extend the external node vocabulary without redesigning the matrix."
+    },
+    {
+      "rule_id": "rel.interaction.triggers",
+      "match": {
+        "fact_type": "interaction",
+        "kind": "triggers"
+      },
+      "action": "CREATE_RELATIONSHIP_IF_RESOLVED",
+      "relationship": {
+        "kind": "TRIGGERS"
+      },
+      "source": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "source_fact_id"
+        ],
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "target_fact_id"
+        ],
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "target_not_resolved"
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Observed only when M2 captured an explicit trigger statement and both endpoint facts map to existing engineering nodes. Never inferred from co-location or name similarity. Unresolved endpoints stay in engineering.unresolved[] with retained evidence."
+    },
+    {
+      "rule_id": "rel.contains.directory_file",
+      "match": {
+        "fact_type": "file",
+        "kind": "repository_file"
+      },
+      "action": "CREATE_DERIVED_RELATIONSHIP",
+      "relationship": {
+        "kind": "CONTAINS"
+      },
+      "source": {
+        "resolve": "path_node",
+        "from_attributes": [
+          "path"
+        ],
+        "node_kind": "artifact",
+        "node_subkind": "directory",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "path_node",
+        "from_attributes": [
+          "path"
+        ],
+        "node_kind": "artifact",
+        "node_subkind": "file",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "derive": {
+        "condition": "parent_directory_of_file_path_exists_as_directory_node",
+        "description": "Source directory path is the parent of the file path; both nodes exist from M2 path attributes."
+      },
+      "classification": "derived",
+      "requires_evidence": true,
+      "notes": "Derived from filesystem path structure, not from names alone. Evidence cites contributing file (and directory) facts."
+    },
+    {
+      "rule_id": "rel.contains.file_module",
+      "match": {
+        "fact_type": "entity",
+        "kind": "module"
+      },
+      "action": "CREATE_DERIVED_RELATIONSHIP",
+      "relationship": {
+        "kind": "CONTAINS"
+      },
+      "source": {
+        "resolve": "path_node",
+        "from_attributes": [
+          "path"
+        ],
+        "node_kind": "artifact",
+        "node_subkind": "file",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "path"
+        ],
+        "node_kind": "code_entity",
+        "node_subkind": "module",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "derive": {
+        "condition": "module_path_equals_file_path",
+        "description": "Module identity path equals the repository file path."
+      },
+      "classification": "derived",
+      "requires_evidence": true
+    },
+    {
+      "rule_id": "rel.contains.file_class",
+      "match": {
+        "fact_type": "entity",
+        "kind": "class"
+      },
+      "action": "CREATE_DERIVED_RELATIONSHIP",
+      "relationship": {
+        "kind": "CONTAINS"
+      },
+      "source": {
+        "resolve": "path_node",
+        "from_attributes": [
+          "path"
+        ],
+        "node_kind": "artifact",
+        "node_subkind": "file",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "path",
+          "qualified_name"
+        ],
+        "node_kind": "code_entity",
+        "node_subkind": "class",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "derive": {
+        "condition": "class_path_equals_file_path",
+        "description": "Class attributes.path equals the containing file path."
+      },
+      "classification": "derived",
+      "requires_evidence": true
+    },
+    {
+      "rule_id": "rel.contains.file_function",
+      "match": {
+        "fact_type": "entity",
+        "kind": "function"
+      },
+      "action": "CREATE_DERIVED_RELATIONSHIP",
+      "relationship": {
+        "kind": "CONTAINS"
+      },
+      "source": {
+        "resolve": "path_node",
+        "from_attributes": [
+          "path"
+        ],
+        "node_kind": "artifact",
+        "node_subkind": "file",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "path",
+          "qualified_name"
+        ],
+        "node_kind": "code_entity",
+        "node_subkind": "function",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "derive": {
+        "condition": "function_path_equals_file_path",
+        "description": "Function attributes.path equals the containing file path."
+      },
+      "classification": "derived",
+      "requires_evidence": true
+    },
+    {
+      "rule_id": "rel.contains.module_class",
+      "match": {
+        "fact_type": "entity",
+        "kind": "class"
+      },
+      "action": "CREATE_DERIVED_RELATIONSHIP",
+      "relationship": {
+        "kind": "CONTAINS"
+      },
+      "source": {
+        "resolve": "path_node",
+        "from_attributes": [
+          "path"
+        ],
+        "node_kind": "code_entity",
+        "node_subkind": "module",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "path",
+          "qualified_name"
+        ],
+        "node_kind": "code_entity",
+        "node_subkind": "class",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "derive": {
+        "condition": "module_with_same_path_exists",
+        "description": "Python module for the same repository path exists in engineering nodes (path equality, not name guessing)."
+      },
+      "classification": "derived",
+      "requires_evidence": true
+    },
+    {
+      "rule_id": "rel.contains.module_function",
+      "match": {
+        "fact_type": "entity",
+        "kind": "function"
+      },
+      "action": "CREATE_DERIVED_RELATIONSHIP",
+      "relationship": {
+        "kind": "CONTAINS"
+      },
+      "source": {
+        "resolve": "path_node",
+        "from_attributes": [
+          "path"
+        ],
+        "node_kind": "code_entity",
+        "node_subkind": "module",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "path",
+          "qualified_name"
+        ],
+        "node_kind": "code_entity",
+        "node_subkind": "function",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "derive": {
+        "condition": "module_with_same_path_exists",
+        "description": "Python module for the same repository path exists in engineering nodes."
+      },
+      "classification": "derived",
+      "requires_evidence": true
+    },
+    {
+      "rule_id": "rel.contains.class_function",
+      "match": {
+        "fact_type": "entity",
+        "kind": "function"
+      },
+      "action": "CREATE_DERIVED_RELATIONSHIP",
+      "relationship": {
+        "kind": "CONTAINS"
+      },
+      "source": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "path",
+          "qualified_name"
+        ],
+        "node_kind": "code_entity",
+        "node_subkind": "class",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "path",
+          "qualified_name"
+        ],
+        "node_kind": "code_entity",
+        "node_subkind": "function",
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "derive": {
+        "condition": "function_qualified_name_nested_under_class_qualified_name",
+        "description": "Only when M2 attributes provide a deterministic parent link (e.g. function qualified_name is nested under class qualified_name on the same path). Name-only matching is forbidden. If attributes lack a parent link, emit unresolved rather than guessing."
+      },
+      "classification": "derived",
+      "requires_evidence": true,
+      "notes": "Many M2 method lists are bare names without parent links; those cases stay unresolved instead of inventing containment."
+    },
+    {
+      "rule_id": "rel.interaction.declares",
+      "match": {
+        "fact_type": "interaction",
+        "kind": "declares"
+      },
+      "action": "CREATE_RELATIONSHIP_IF_RESOLVED",
+      "relationship": {
+        "kind": "DECLARES"
+      },
+      "source": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "source_fact_id"
+        ],
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "target_fact_id"
+        ],
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "target_not_resolved"
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Agent -> Tool (the agent explicitly declares the tool). Observed only when M2 captured an explicit agent tool declaration and both endpoints resolve to engineering nodes. A bare declaration whose name also appears as an MCP tool name is emitted by M2 as an ambiguous candidate (reason ambiguous_identity) instead of a canonical edge; the declared reason travels on the M2 fact."
+    },
+    {
+      "rule_id": "rel.interaction.exposes",
+      "match": {
+        "fact_type": "interaction",
+        "kind": "exposes"
+      },
+      "action": "CREATE_RELATIONSHIP_IF_RESOLVED",
+      "relationship": {
+        "kind": "EXPOSED_BY"
+      },
+      "source": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "source_fact_id"
+        ],
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "target_fact_id"
+        ],
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "target_not_resolved"
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "Tool -> MCP Server (the tool is exposed by the server), so the Agent -> Tool -> Server path walks forward. Observed from an explicit tool-registry entry or an explicit namespaced agent tool reference whose server namespace is registered. An unregistered server namespace stays unresolved (target_not_resolved) with the referring evidence retained."
+    },
+    {
+      "rule_id": "rel.interaction.configures",
+      "match": {
+        "fact_type": "interaction",
+        "kind": "configures"
+      },
+      "action": "CREATE_RELATIONSHIP_IF_RESOLVED",
+      "relationship": {
+        "kind": "CONFIGURED_BY"
+      },
+      "source": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "source_fact_id"
+        ],
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "missing_endpoint"
+      },
+      "target": {
+        "resolve": "fact_node_identity",
+        "from_attributes": [
+          "target_fact_id"
+        ],
+        "on_failure": "UNRESOLVED",
+        "unresolved_reason": "target_not_resolved"
+      },
+      "classification": "observed",
+      "requires_evidence": true,
+      "notes": "MCP Server -> MCP Configuration (the server is enabled by a configuration artifact entry), extending the path forward to the configuration node. Observed from an explicit server entry in an MCP configuration file. A registered server with no configuration entry stays unresolved with evidence. When multiple configuration files map the same server, every CONFIGURED_BY edge is retained with classification conflicting - no arbitrary selection."
+    }
+  ],
+  "identity_rules": [
+    {
+      "rule_id": "id.node.artifact.file",
+      "applies_to": "node",
+      "template": "artifact:file:{path}",
+      "stable_fields": [
+        "path"
+      ],
+      "forbidden": [
+        "analyzer",
+        "source",
+        "uuid",
+        "timestamp",
+        "array_index",
+        "random"
+      ],
+      "notes": "Repository-relative path only."
+    },
+    {
+      "rule_id": "id.node.artifact.directory",
+      "applies_to": "node",
+      "template": "artifact:directory:{path}",
+      "stable_fields": [
+        "path"
+      ],
+      "forbidden": [
+        "analyzer",
+        "source",
+        "uuid",
+        "timestamp",
+        "array_index",
+        "random"
+      ]
+    },
+    {
+      "rule_id": "id.node.artifact.specialized",
+      "applies_to": "node",
+      "template": "artifact:{subkind}:{path}",
+      "stable_fields": [
+        "subkind",
+        "path"
+      ],
+      "forbidden": [
+        "analyzer",
+        "source",
+        "uuid",
+        "timestamp",
+        "array_index",
+        "random"
+      ],
+      "notes": "Specialized ADOP artifacts (agent_*, mcp_*). Subkind comes from M2 kind, not from analyzer name."
+    },
+    {
+      "rule_id": "id.node.code_entity.module",
+      "applies_to": "node",
+      "template": "code_entity:{path}",
+      "stable_fields": [
+        "path"
+      ],
+      "forbidden": [
+        "analyzer",
+        "source",
+        "uuid",
+        "timestamp",
+        "array_index",
+        "random"
+      ],
+      "notes": "Never python-module:, ast-module:, or tree-sitter-module:."
+    },
+    {
+      "rule_id": "id.node.code_entity.class_function",
+      "applies_to": "node",
+      "template": "code_entity:{entity_key}",
+      "stable_fields": [
+        "path",
+        "qualified_name"
+      ],
+      "forbidden": [
+        "analyzer",
+        "source",
+        "uuid",
+        "timestamp",
+        "array_index",
+        "random"
+      ],
+      "notes": "entity_key = normalize(path, qualified_name): use qualified_name when it already carries path context; otherwise path::qualified_name. Never duplicates the repository path. No analyzer names."
+    },
+    {
+      "rule_id": "id.node.external_package",
+      "applies_to": "node",
+      "template": "external_package:{name}",
+      "stable_fields": [
+        "name"
+      ],
+      "forbidden": [
+        "analyzer",
+        "source",
+        "uuid",
+        "timestamp",
+        "array_index",
+        "random"
+      ],
+      "notes": "Documented V1 external vocabulary; may evolve in later milestones without redesigning the full matrix."
+    },
+    {
+      "rule_id": "id.relationship.default",
+      "applies_to": "relationship",
+      "template": "rel:{kind}:{source}:{target}",
+      "stable_fields": [
+        "kind",
+        "source",
+        "target"
+      ],
+      "forbidden": [
+        "analyzer",
+        "uuid",
+        "timestamp",
+        "array_index",
+        "random"
+      ],
+      "notes": "Stable for same source + same target + same relationship kind. No random UUIDs; no analyzer-specific identifiers."
+    },
+    {
+      "rule_id": "id.node.tool.mcp",
+      "applies_to": "node",
+      "template": "tool:mcp:{server}:{name}",
+      "stable_fields": [
+        "server",
+        "name"
+      ],
+      "forbidden": [
+        "analyzer",
+        "source",
+        "uuid",
+        "timestamp",
+        "array_index",
+        "random"
+      ],
+      "notes": "Server-scoped tool identity (MCP calling identity). Never includes analyzer/source names."
+    },
+    {
+      "rule_id": "id.node.tool.built_in",
+      "applies_to": "node",
+      "template": "tool:builtin:{name}",
+      "stable_fields": [
+        "name"
+      ],
+      "forbidden": [
+        "analyzer",
+        "source",
+        "uuid",
+        "timestamp",
+        "array_index",
+        "random"
+      ],
+      "notes": "Namespace-free tool identity for explicitly declared agent tools. Never includes analyzer/source names."
+    },
+    {
+      "rule_id": "id.node.mcp_server",
+      "applies_to": "node",
+      "template": "mcp_server:{name}",
+      "stable_fields": [
+        "name"
+      ],
+      "forbidden": [
+        "analyzer",
+        "source",
+        "uuid",
+        "timestamp",
+        "array_index",
+        "random"
+      ],
+      "notes": "Registered server name only. Configuration/source paths are evidence, not identity. Never includes analyzer/source names."
+    }
+  ],
+  "evidence_rules": {
+    "canonical_node_requires_evidence": true,
+    "canonical_relationship_requires_evidence": true,
+    "derived_relationship_requires_contributing_facts": true,
+    "unresolved_retains_evidence": true,
+    "minimum_evidence": 1,
+    "propagation": "copy_m2_evidence_refs",
+    "evidence_only": [
+      {
+        "fact_type": "artifact",
+        "kind": "mcp_documentation",
+        "reason": "Additional characteristic of a path that may already have a canonical node; do not duplicate physical artifacts."
+      },
+      {
+        "fact_type": "artifact",
+        "kind": "markdown",
+        "reason": "Same physical file may already be artifact:file."
+      },
+      {
+        "fact_type": "artifact",
+        "kind": "python",
+        "reason": "MCP/python side characteristic; modules come from entity/module."
+      },
+      {
+        "fact_type": "artifact",
+        "kind": "shell",
+        "reason": "Same physical file may already be artifact:file."
+      },
+      {
+        "fact_type": "configuration",
+        "kind": "file",
+        "reason": "Configuration classification of an existing repository file."
+      },
+      {
+        "fact_type": "configuration",
+        "kind": "json",
+        "reason": "Configuration classification of an existing repository file."
+      },
+      {
+        "fact_type": "configuration",
+        "kind": "toml",
+        "reason": "Configuration classification of an existing repository file."
+      },
+      {
+        "fact_type": "configuration",
+        "kind": "yaml",
+        "reason": "Configuration classification of an existing repository file."
+      },
+      {
+        "fact_type": "documentation",
+        "kind": "documentation",
+        "reason": "Documentation classification of an existing path."
+      },
+      {
+        "fact_type": "documentation",
+        "kind": "markdown",
+        "reason": "Documentation classification of an existing path."
+      },
+      {
+        "fact_type": "documentation",
+        "kind": "readme",
+        "reason": "Documentation classification of an existing path."
+      },
+      {
+        "fact_type": "documentation",
+        "kind": "runbook",
+        "reason": "Documentation classification of an existing path."
+      },
+      {
+        "fact_type": "test",
+        "kind": "test_directory",
+        "reason": "Test classification of an existing directory."
+      },
+      {
+        "fact_type": "test",
+        "kind": "test_file",
+        "reason": "Test classification of an existing file."
+      }
+    ],
+    "notes": "A graph object without evidence is not canonical engineering knowledge. Copy EvidenceRef entries from contributing M2 facts; do not invent paths or commits."
+  },
+  "unresolved_rules": {
+    "reasons": [
+      "target_not_resolved",
+      "ambiguous_identity",
+      "missing_endpoint",
+      "unsupported_relationship"
+    ],
+    "container": "engineering.unresolved[]",
+    "excluded_from_canonical_relationships": true,
+    "required_fields": [
+      "source",
+      "target",
+      "kind",
+      "reason",
+      "evidence"
+    ],
+    "notes": "Unresolved candidates retain the evidence that caused the unresolved state. They must not be inserted into canonical relationships[] and must not be given classification: unknown on a canonical edge."
+  },
+  "validation_rules": {
+    "unique_node_ids": true,
+    "unique_relationship_ids": true,
+    "relationship_source_must_exist": true,
+    "relationship_target_must_exist": true,
+    "canonical_node_requires_evidence": true,
+    "canonical_relationship_requires_evidence": true,
+    "deterministic_node_identity": true,
+    "deterministic_relationship_identity": true,
+    "deterministic_output_order": true,
+    "unresolved_claims_excluded_from_canonical_relationships": true,
+    "no_analyzer_name_in_entity_identity": true,
+    "no_random_ids_for_canonical_entities": true,
+    "no_duplicate_physical_artifact_nodes": true,
+    "notes": "no_duplicate_physical_artifact_nodes means multiple M2 fact classifications of the same path must not yield multiple artifact:file nodes (specialized artifact:* nodes with distinct subkinds are intentional separate engineering views)."
+  },
+  "deferred": [
+    "CALLS",
+    "EXPOSES",
+    "CONSUMES",
+    "PRODUCES",
+    "runtime dependencies",
+    "cloud-resource relationships",
+    "data lineage",
+    "business-domain inference",
+    "architecture-level services",
+    "architecture-level workflows",
+    "semantic agent interpretation",
+    "LLM inference",
+    "RAG",
+    "embeddings",
+    "graph databases",
+    "Neo4j",
+    "Neptune",
+    "MCP-based investigation",
+    "ReAct",
+    "multi-agent orchestration",
+    "ArchitectureModel / validated diagram generation",
+    "EngineeringModel builder implementation (beyond matrix validation helpers)"
+  ]
+}

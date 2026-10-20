@@ -1,0 +1,2278 @@
+PS C:\self-study\ai\build\repository-intelligence> .\.venv\Scripts\Activate.ps1
+(.venv) PS C:\self-study\ai\build\repository-intelligence> python agentrun_repository_retrieval_flow_demo.py --offline --verbose
+============================================================
+QUERY
+============================================================
+
+Repository:
+sample-Agentic-Ai-Data-Operations
+
+Commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+Snapshot:
+main_2026-09-22_ef11dac
+
+Question:
+How do the agents, tools, and MCP servers interact?
+
+Reasoning mode:
+OFFLINE / deterministic
+
+top-k:
+5
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+modules.json: 100%|█████████████████████████████████████████████████████████████████████████████████| 349/349 [00:00<00:00, 305kB/s]
+config_sentence_transformers.json: 100%|███████████████████████████████████████████████████████████████████| 124/124 [00:00<?, ?B/s]
+README.md: 100%|███████████████████████████████████████████████████████████████████████████████| 94.8k/94.8k [00:00<00:00, 13.3MB/s]
+sentence_bert_config.json: 100%|█████████████████████████████████████████████████████████████████████████| 52.0/52.0 [00:00<?, ?B/s]
+config.json: 100%|█████████████████████████████████████████████████████████████████████████████████████████| 743/743 [00:00<?, ?B/s]
+model.safetensors: downloading bytes: ██████████████████████████████████████████████████████████████████████████| 86.7MB, 3.15MB/s
+model.safetensors: reconstructing file: 100%|██████████████████████████████████████████████████████████|  133MB /  133MB, 9.67MB/s
+Loading weights: 100%|██████████████████████████████████████████████████████████████████████████| 199/199 [00:00<00:00, 2976.61it/s]
+tokenizer_config.json: 100%|███████████████████████████████████████████████████████████████████████| 366/366 [00:00<00:00, 22.9kB/s]
+vocab.txt: 100%|█████████████████████████████████████████████████████████████████████████████████| 232k/232k [00:00<00:00, 2.92MB/s]
+tokenizer.json: 100%|████████████████████████████████████████████████████████████████████████████| 711k/711k [00:00<00:00, 2.07MB/s]
+special_tokens_map.json: 100%|█████████████████████████████████████████████████████████████████████████████| 125/125 [00:00<?, ?B/s]
+config.json: 100%|█████████████████████████████████████████████████████████████████████████████████████████| 190/190 [00:00<?, ?B/s]
+============================================================
+1. REPOSITORY RETRIEVAL
+============================================================
+
+count:
+5
+
+total_matches: 2530
+truncated: True
+
+[1]
+file:
+TOOL_ROUTING.md
+
+lines:
+1-40
+
+score:
+0.810823
+
+chunk:
+4b076e448ccadb40
+
+excerpt:
+# TOOL_ROUTING.md — Tool Selection for Agentic Data Onboarding
+
+> **Read this file FIRST before any pipeline operation.**
+> It tells you WHICH tool to pick and WHY, with code examples for implementation.
+> For per-phase runtime guardrails and exact MCP tool names, see → [MCP_GUARDRAILS.md](./MCP_GUARDRAILS.md)
+> Canonical server list: [tool-registry/servers.yaml](./tool-registry/servers.yaml)
+
+---
+
+## Step 1 — Am I in a Sub-Agent or Main Conversation?
+
+This is the most important question. Answer it before anything else.
+
+| Context | What I can do |
+|---|---|
+| **Main conversation** (Data Onboa...
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+[2]
+file:
+docs/getting-started.md
+
+lines:
+225-264
+
+score:
+0.7925
+
+chunk:
+e9e6343562fc6d92
+
+excerpt:
+```
+
+**What happens**: Claude creates lineage diagrams, relationship graphs, and structured metadata for governance.
+
+---
+
+### Scenario 5a: Demo with Gateway (Cloud-Hosted Tools, Local Agent)
+
+**Need**: Team wants cloud-hosted MCP tools without local Python/uv setup, but agent stays on laptop
+
+```
+1. Deploy all 13 MCP servers to Agentcore Gateway:
+   → Run runbooks/environment-setup-agent/02-deploy-agentcore-gateway.md
+
+2. Switch to Gateway tools:
+   → Replace .mcp.json with .mcp.gateway.json
+
+3. Onboard data as usual:
+   → Run runbooks/data-onboarding-agent/03-onboard-build-pipeline.md
+```
+
+*...
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+[3]
+file:
+runbooks/environment-setup-agent/agentcore/README.md
+
+lines:
+65-104
+
+score:
+0.787125
+
+chunk:
+efe91d7b59234a23
+
+excerpt:
+```
+
+### Production Mode
+
+The agent runs on Agentcore Runtime in the cloud. MCP tools come from the same Gateway.
+
+| Aspect | Details |
+|--------|---------|
+| **Agent** | Agentcore Runtime (cloud, API-accessible) |
+| **Tools** | All 13 MCP servers on Gateway (same Gateway as demo mode) |
+| **Sub-agents** | Managed internally by Runtime |
+| **Human-in-the-loop** | Optional -- can be fully autonomous or pause for approval via API |
+| **Use case** | Production pipelines, multi-user, API integrations, scheduled onboarding |
+
+**How to set up:**
+1. Deploy Gateway: run `runbooks/environment-setup-age...
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+[4]
+file:
+docs/mcp-setup.md
+
+lines:
+321-343
+
+score:
+0.786071
+
+chunk:
+3cffee283042ab86
+
+excerpt:
+- API-driven agent invocation (no local Claude Code needed)
+- Scheduled pipelines (cron, Airflow triggers)
+- Multi-tenant (multiple agents share Gateway tools)
+
+---
+
+---
+
+## Documentation
+
+| File | Purpose |
+|------|---------|
+| `.mcp.json` | MCP server configuration (committed, portable) |
+| `.mcp.gateway.json` | Gateway MCP configuration (generated by prompt 09) |
+| `runbooks/environment-setup-agent/agentcore/` | Gateway config, IAM policies, Runtime agent definition |
+| `MCP_GUARDRAILS.md` | Tool selection rules per pipeline phase |
+| `TOOL_ROUTING.md` | Intent-based tool routing guide |
+| ...
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+[5]
+file:
+.claude/rules/02-architecture.md
+
+lines:
+1-40
+
+score:
+0.779624
+
+chunk:
+5a745e63c78c2e61
+
+excerpt:
+# Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  MCP SERVERS (set up FIRST — before any phase)                              │
+│                                                                             │
+│  Local mode (.mcp.json, stdio)     OR    Gateway mode (.mcp.gateway.json)   │
+│  13 servers on laptop                    13 servers on Agentcore Gateway     │
+│                                                                             │
+│  REQUIRED: glue-athena, lakeformation, iam  (block if down)                 │
+│  WARN:  ...
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+retrieval data:
+{
+  "query": "How do the agents, tools, and MCP servers interact?",
+  "results": [
+    {
+      "file_path": "TOOL_ROUTING.md",
+      "path": "TOOL_ROUTING.md",
+      "line_start": 1,
+      "line_end": 40,
+      "chunk_id": "4b076e448ccadb40",
+      "similarity_score": 0.810823,
+      "language": "markdown",
+      "repository_name": "sample-Agentic-Ai-Data-Operations",
+      "commit_sha": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "snapshot_id": "main_2026-09-22_ef11dac",
+      "excerpt": "# TOOL_ROUTING.md \u2014 Tool Selection for Agentic Data Onboarding\n\n> **Read this file FIRST before any pipeline operation.**\n> It tells you WHICH tool to pick and WHY, with code examples for implementation.\n> For per-phase runtime guardrails and exact MCP tool names, see \u2192 [MCP_GUARDRAILS.md](./MCP_GUARDRAILS.md)\n> Canonical server list: [tool-registry/servers.yaml](./tool-registry/servers.yaml)\n\n---\n\n## Step 1 \u2014 Am I in a Sub-Agent or Main Conversation?\n\nThis is the most important question. Answer it before anything else.\n\n| Context | What I can do |\n|---|---|\n| **Main conversation** (Data Onboa..."
+    },
+    {
+      "file_path": "docs/getting-started.md",
+      "path": "docs/getting-started.md",
+      "line_start": 225,
+      "line_end": 264,
+      "chunk_id": "e9e6343562fc6d92",
+      "similarity_score": 0.7925,
+      "language": "markdown",
+      "repository_name": "sample-Agentic-Ai-Data-Operations",
+      "commit_sha": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "snapshot_id": "main_2026-09-22_ef11dac",
+      "excerpt": "```\n\n**What happens**: Claude creates lineage diagrams, relationship graphs, and structured metadata for governance.\n\n---\n\n### Scenario 5a: Demo with Gateway (Cloud-Hosted Tools, Local Agent)\n\n**Need**: Team wants cloud-hosted MCP tools without local Python/uv setup, but agent stays on laptop\n\n```\n1. Deploy all 13 MCP servers to Agentcore Gateway:\n   \u2192 Run runbooks/environment-setup-agent/02-deploy-agentcore-gateway.md\n\n2. Switch to Gateway tools:\n   \u2192 Replace .mcp.json with .mcp.gateway.json\n\n3. Onboard data as usual:\n   \u2192 Run runbooks/data-onboarding-agent/03-onboard-build-pipeline.md\n```\n\n*..."
+    },
+    {
+      "file_path": "runbooks/environment-setup-agent/agentcore/README.md",
+      "path": "runbooks/environment-setup-agent/agentcore/README.md",
+      "line_start": 65,
+      "line_end": 104,
+      "chunk_id": "efe91d7b59234a23",
+      "similarity_score": 0.787125,
+      "language": "markdown",
+      "repository_name": "sample-Agentic-Ai-Data-Operations",
+      "commit_sha": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "snapshot_id": "main_2026-09-22_ef11dac",
+      "excerpt": "```\n\n### Production Mode\n\nThe agent runs on Agentcore Runtime in the cloud. MCP tools come from the same Gateway.\n\n| Aspect | Details |\n|--------|---------|\n| **Agent** | Agentcore Runtime (cloud, API-accessible) |\n| **Tools** | All 13 MCP servers on Gateway (same Gateway as demo mode) |\n| **Sub-agents** | Managed internally by Runtime |\n| **Human-in-the-loop** | Optional -- can be fully autonomous or pause for approval via API |\n| **Use case** | Production pipelines, multi-user, API integrations, scheduled onboarding |\n\n**How to set up:**\n1. Deploy Gateway: run `runbooks/environment-setup-age..."
+    },
+    {
+      "file_path": "docs/mcp-setup.md",
+      "path": "docs/mcp-setup.md",
+      "line_start": 321,
+      "line_end": 343,
+      "chunk_id": "3cffee283042ab86",
+      "similarity_score": 0.786071,
+      "language": "markdown",
+      "repository_name": "sample-Agentic-Ai-Data-Operations",
+      "commit_sha": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "snapshot_id": "main_2026-09-22_ef11dac",
+      "excerpt": "- API-driven agent invocation (no local Claude Code needed)\n- Scheduled pipelines (cron, Airflow triggers)\n- Multi-tenant (multiple agents share Gateway tools)\n\n---\n\n---\n\n## Documentation\n\n| File | Purpose |\n|------|---------|\n| `.mcp.json` | MCP server configuration (committed, portable) |\n| `.mcp.gateway.json` | Gateway MCP configuration (generated by prompt 09) |\n| `runbooks/environment-setup-agent/agentcore/` | Gateway config, IAM policies, Runtime agent definition |\n| `MCP_GUARDRAILS.md` | Tool selection rules per pipeline phase |\n| `TOOL_ROUTING.md` | Intent-based tool routing guide |\n| ..."
+    },
+    {
+      "file_path": ".claude/rules/02-architecture.md",
+      "path": ".claude/rules/02-architecture.md",
+      "line_start": 1,
+      "line_end": 40,
+      "chunk_id": "5a745e63c78c2e61",
+      "similarity_score": 0.779624,
+      "language": "markdown",
+      "repository_name": "sample-Agentic-Ai-Data-Operations",
+      "commit_sha": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "snapshot_id": "main_2026-09-22_ef11dac",
+      "excerpt": "# Architecture Overview\n\n```\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502  MCP SERVERS (set up FIRST \u2014 before any phase)                              \u2502\n\u2502                                                                             \u2502\n\u2502  Local mode (.mcp.json, stdio)     OR    Gateway mode (.mcp.gateway.json)   \u2502\n\u2502  13 servers on laptop                    13 servers on Agentcore Gateway     \u2502\n\u2502                                                                             \u2502\n\u2502  REQUIRED: glue-athena, lakeformation, iam  (block if down)                 \u2502\n\u2502  WARN:  ..."
+    }
+  ],
+  "total_matches": 2530,
+  "returned": 5,
+  "truncated": true,
+  "retrieval": {
+    "mode": "semantic",
+    "embedding_model": "sentence-transformers://BAAI/bge-small-en-v1.5",
+    "repository": "sample-Agentic-Ai-Data-Operations",
+    "commit_sha": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+    "snapshot_id": "main_2026-09-22_ef11dac",
+    "index_chunks": 2530
+  }
+}
+graph kinds census:
+{
+  "mode": "summary",
+  "query": {
+    "start_node_id": null,
+    "direction": null,
+    "relationship_kinds": null,
+    "node_kinds": null,
+    "max_depth": null
+  },
+  "start_node": null,
+  "nodes": [],
+  "relationships": [],
+  "evidence": [],
+  "kinds": [
+    {
+      "kind": "artifact",
+      "subkind": "agent_command",
+      "node_count": 3,
+      "sample_node_ids": [
+        "artifact:agent_command:.claude/commands/devops-workflow.md",
+        "artifact:agent_command:.claude/commands/onboard-workflow.md",
+        "artifact:agent_command:.claude/commands/security-review.md"
+      ]
+    },
+    {
+      "kind": "artifact",
+      "subkind": "agent_config",
+      "node_count": 1,
+      "sample_node_ids": [
+        "artifact:agent_config:runbooks/environment-setup-agent/agentcore/runtime/agent.yaml"
+      ]
+    },
+    {
+      "kind": "artifact",
+      "subkind": "agent_definition",
+      "node_count": 11,
+      "sample_node_ids": [
+        "artifact:agent_definition:.claude/agents/dag-agent.md",
+        "artifact:agent_definition:.claude/agents/iac-agent.md",
+        "artifact:agent_definition:.claude/agents/metadata-agent.md",
+        "artifact:agent_definition:.claude/agents/ontology-agent.md",
+        "artifact:agent_definition:.claude/agents/quality-agent.md"
+      ]
+    },
+    {
+      "kind": "artifact",
+      "subkind": "directory",
+      "node_count": 84,
+      "sample_node_ids": [
+        "artifact:directory:.claude",
+        "artifact:directory:.claude/agents",
+        "artifact:directory:.claude/commands",
+        "artifact:directory:.claude/hooks",
+        "artifact:directory:.claude/rules"
+      ]
+    },
+    {
+      "kind": "artifact",
+      "subkind": "file",
+      "node_count": 322,
+      "sample_node_ids": [
+        "artifact:file:.claude/agents/dag-agent.md",
+        "artifact:file:.claude/agents/iac-agent.md",
+        "artifact:file:.claude/agents/metadata-agent.md",
+        "artifact:file:.claude/agents/ontology-agent.md",
+        "artifact:file:.claude/agents/quality-agent.md"
+      ]
+    },
+    {
+      "kind": "artifact",
+      "subkind": "mcp_config",
+      "node_count": 1,
+      "sample_node_ids": [
+        "artifact:mcp_config:.mcp.json"
+      ]
+    },
+    {
+      "kind": "artifact",
+      "subkind": "mcp_server_source",
+      "node_count": 2,
+      "sample_node_ids": [
+        "artifact:mcp_server_source:shared/tests/unit/test_mcp_config_validator.py",
+        "artifact:mcp_server_source:shared/utils/hook_validators/mcp_config_validator.py"
+      ]
+    },
+    {
+      "kind": "code_entity",
+      "subkind": "class",
+      "node_count": 150,
+      "sample_node_ids": [
+        "code_entity:shared/codegen/drift_validator.py::DriftReport",
+        "code_entity:shared/codegen/drift_validator.py::WorkloadDriftReport",
+        "code_entity:shared/codegen/exceptions.py::CodegenError",
+        "code_entity:shared/codegen/exceptions.py::DriftDetectedError",
+        "code_entity:shared/codegen/exceptions.py::MissingSlotError"
+      ]
+    },
+    {
+      "kind": "code_entity",
+      "subkind": "function",
+      "node_count": 336,
+      "sample_node_ids": [
+        "code_entity:.claude/hooks/enforce_template_codegen.py::extract_file_paths",
+        "code_entity:.claude/hooks/enforce_template_codegen.py::is_protected_path",
+        "code_entity:.claude/hooks/enforce_template_codegen.py::log_block",
+        "code_entity:.claude/hooks/enforce_template_codegen.py::main",
+        "code_entity:.claude/hooks/inject_run_context.py::_answered_keys"
+      ]
+    },
+    {
+      "kind": "code_entity",
+      "subkind": "module",
+      "node_count": 115,
+      "sample_node_ids": [
+        "code_entity:.claude/hooks/enforce_template_codegen.py",
+        "code_entity:.claude/hooks/inject_run_context.py",
+        "code_entity:.claude/hooks/log_conversation.py",
+        "code_entity:mcp-servers/glue-athena-server/lambda_handler.py",
+        "code_entity:mcp-servers/glue-athena-server/server.py"
+      ]
+    },
+    {
+      "kind": "external_package",
+      "subkind": "package",
+      "node_count": 3,
+      "sample_node_ids": [
+        "external_package:jinja2",
+        "external_package:jsonschema",
+        "external_package:rdflib"
+      ]
+    },
+    {
+      "kind": "mcp_server",
+      "subkind": "registered",
+      "node_count": 13,
+      "sample_node_ids": [
+        "mcp_server:cloudtrail",
+        "mcp_server:cloudwatch",
+        "mcp_server:core",
+        "mcp_server:cost-explorer",
+        "mcp_server:dynamodb"
+      ]
+    },
+    {
+      "kind": "tool",
+      "subkind": "built_in",
+      "node_count": 6,
+      "sample_node_ids": [
+        "tool:builtin:Bash",
+        "tool:builtin:Edit",
+        "tool:builtin:Glob",
+        "tool:builtin:Grep",
+        "tool:builtin:Read"
+      ]
+    },
+    {
+      "kind": "tool",
+      "subkind": "mcp",
+      "node_count": 66,
+      "sample_node_ids": [
+        "tool:mcp:cloudtrail:get_query_results",
+        "tool:mcp:cloudtrail:get_query_status",
+        "tool:mcp:cloudtrail:lake_query",
+        "tool:mcp:cloudtrail:list_event_data_stores",
+        "tool:mcp:cloudtrail:lookup_events"
+      ]
+    }
+  ],
+  "counts": {
+    "nodes": 1113,
+    "relationships": 1627,
+    "unresolved": 449,
+    "kinds": 14
+  },
+  "truncated": false
+}
+graph walk artifact:agent_command:.claude/commands/devops-workflow.md:
+{
+  "mode": "traversal",
+  "query": {
+    "start_node_id": "artifact:agent_command:.claude/commands/devops-workflow.md",
+    "direction": "both",
+    "relationship_kinds": null,
+    "node_kinds": null,
+    "max_depth": 1
+  },
+  "start_node": {
+    "id": "artifact:agent_command:.claude/commands/devops-workflow.md",
+    "depth": 0,
+    "kind": "artifact",
+    "subkind": "agent_command",
+    "classification": "observed",
+    "attributes": {
+      "path": ".claude/commands/devops-workflow.md",
+      "qualified_name": null,
+      "name": null,
+      "fact_type": "artifact",
+      "fact_kind": "agent_command"
+    },
+    "evidence": [
+      {
+        "path": ".claude/commands/devops-workflow.md",
+        "artifact_type": "agent_definition",
+        "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "artifact:agent_command:.claude/commands/devops-workflow.md",
+      "depth": 0,
+      "kind": "artifact",
+      "subkind": "agent_command",
+      "classification": "observed",
+      "attributes": {
+        "path": ".claude/commands/devops-workflow.md",
+        "qualified_name": null,
+        "name": null,
+        "fact_type": "artifact",
+        "fact_kind": "agent_command"
+      },
+      "evidence": [
+        {
+          "path": ".claude/commands/devops-workflow.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0"
+        }
+      ]
+    }
+  ],
+  "relationships": [],
+  "evidence": [
+    {
+      "path": ".claude/commands/devops-workflow.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "origin": "node:artifact:agent_command:.claude/commands/devops-workflow.md",
+      "index": 0
+    }
+  ],
+  "kinds": [],
+  "counts": {
+    "nodes": 1,
+    "relationships": 0,
+    "evidence": 1
+  },
+  "truncated": false
+}
+graph walk artifact:agent_command:.claude/commands/onboard-workflow.md:
+{
+  "mode": "traversal",
+  "query": {
+    "start_node_id": "artifact:agent_command:.claude/commands/onboard-workflow.md",
+    "direction": "both",
+    "relationship_kinds": null,
+    "node_kinds": null,
+    "max_depth": 1
+  },
+  "start_node": {
+    "id": "artifact:agent_command:.claude/commands/onboard-workflow.md",
+    "depth": 0,
+    "kind": "artifact",
+    "subkind": "agent_command",
+    "classification": "observed",
+    "attributes": {
+      "path": ".claude/commands/onboard-workflow.md",
+      "qualified_name": null,
+      "name": null,
+      "fact_type": "artifact",
+      "fact_kind": "agent_command"
+    },
+    "evidence": [
+      {
+        "path": ".claude/commands/onboard-workflow.md",
+        "artifact_type": "agent_definition",
+        "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "artifact:agent_command:.claude/commands/onboard-workflow.md",
+      "depth": 0,
+      "kind": "artifact",
+      "subkind": "agent_command",
+      "classification": "observed",
+      "attributes": {
+        "path": ".claude/commands/onboard-workflow.md",
+        "qualified_name": null,
+        "name": null,
+        "fact_type": "artifact",
+        "fact_kind": "agent_command"
+      },
+      "evidence": [
+        {
+          "path": ".claude/commands/onboard-workflow.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0"
+        }
+      ]
+    },
+    {
+      "id": "artifact:agent_definition:.claude/agents/dag-agent.md",
+      "depth": 1,
+      "kind": "artifact",
+      "subkind": "agent_definition",
+      "classification": "observed",
+      "attributes": {
+        "path": ".claude/agents/dag-agent.md",
+        "qualified_name": null,
+        "name": null,
+        "fact_type": "artifact",
+        "fact_kind": "agent_definition"
+      },
+      "evidence": [
+        {
+          "path": ".claude/agents/dag-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0"
+        }
+      ]
+    },
+    {
+      "id": "artifact:agent_definition:.claude/agents/iac-agent.md",
+      "depth": 1,
+      "kind": "artifact",
+      "subkind": "agent_definition",
+      "classification": "observed",
+      "attributes": {
+        "path": ".claude/agents/iac-agent.md",
+        "qualified_name": null,
+        "name": null,
+        "fact_type": "artifact",
+        "fact_kind": "agent_definition"
+      },
+      "evidence": [
+        {
+          "path": ".claude/agents/iac-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0"
+        }
+      ]
+    },
+    {
+      "id": "artifact:agent_definition:.claude/agents/metadata-agent.md",
+      "depth": 1,
+      "kind": "artifact",
+      "subkind": "agent_definition",
+      "classification": "observed",
+      "attributes": {
+        "path": ".claude/agents/metadata-agent.md",
+        "qualified_name": null,
+        "name": null,
+        "fact_type": "artifact",
+        "fact_kind": "agent_definition"
+      },
+      "evidence": [
+        {
+          "path": ".claude/agents/metadata-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0"
+        }
+      ]
+    },
+    {
+      "id": "artifact:agent_definition:.claude/agents/ontology-agent.md",
+      "depth": 1,
+      "kind": "artifact",
+      "subkind": "agent_definition",
+      "classification": "observed",
+      "attributes": {
+        "path": ".claude/agents/ontology-agent.md",
+        "qualified_name": null,
+        "name": null,
+        "fact_type": "artifact",
+        "fact_kind": "agent_definition"
+      },
+      "evidence": [
+        {
+          "path": ".claude/agents/ontology-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0"
+        }
+      ]
+    },
+    {
+      "id": "artifact:agent_definition:.claude/agents/quality-agent.md",
+      "depth": 1,
+      "kind": "artifact",
+      "subkind": "agent_definition",
+      "classification": "observed",
+      "attributes": {
+        "path": ".claude/agents/quality-agent.md",
+        "qualified_name": null,
+        "name": null,
+        "fact_type": "artifact",
+        "fact_kind": "agent_definition"
+      },
+      "evidence": [
+        {
+          "path": ".claude/agents/quality-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0"
+        }
+      ]
+    },
+    {
+      "id": "artifact:agent_definition:.claude/agents/transformation-agent.md",
+      "depth": 1,
+      "kind": "artifact",
+      "subkind": "agent_definition",
+      "classification": "observed",
+      "attributes": {
+        "path": ".claude/agents/transformation-agent.md",
+        "qualified_name": null,
+        "name": null,
+        "fact_type": "artifact",
+        "fact_kind": "agent_definition"
+      },
+      "evidence": [
+        {
+          "path": ".claude/agents/transformation-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0"
+        }
+      ]
+    },
+    {
+      "id": "artifact:agent_definition:runbooks/data-onboarding-agent/ontology-staging-agent.md",
+      "depth": 1,
+      "kind": "artifact",
+      "subkind": "agent_definition",
+      "classification": "observed",
+      "attributes": {
+        "path": "runbooks/data-onboarding-agent/ontology-staging-agent.md",
+        "qualified_name": null,
+        "name": null,
+        "fact_type": "artifact",
+        "fact_kind": "agent_definition"
+      },
+      "evidence": [
+        {
+          "path": "runbooks/data-onboarding-agent/ontology-staging-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/dag-agent.md",
+      "kind": "TRIGGERS",
+      "source": "artifact:agent_command:.claude/commands/onboard-workflow.md",
+      "target": "artifact:agent_definition:.claude/agents/dag-agent.md",
+      "classification": "observed",
+      "depth": 1,
+      "evidence": [
+        {
+          "path": ".claude/agents/dag-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+          "line_start": 3,
+          "line_end": 3
+        }
+      ]
+    },
+    {
+      "id": "rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/iac-agent.md",
+      "kind": "TRIGGERS",
+      "source": "artifact:agent_command:.claude/commands/onboard-workflow.md",
+      "target": "artifact:agent_definition:.claude/agents/iac-agent.md",
+      "classification": "observed",
+      "depth": 1,
+      "evidence": [
+        {
+          "path": ".claude/agents/iac-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+          "line_start": 3,
+          "line_end": 3
+        }
+      ]
+    },
+    {
+      "id": "rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/metadata-agent.md",
+      "kind": "TRIGGERS",
+      "source": "artifact:agent_command:.claude/commands/onboard-workflow.md",
+      "target": "artifact:agent_definition:.claude/agents/metadata-agent.md",
+      "classification": "observed",
+      "depth": 1,
+      "evidence": [
+        {
+          "path": ".claude/agents/metadata-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+          "line_start": 3,
+          "line_end": 3
+        }
+      ]
+    },
+    {
+      "id": "rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/ontology-agent.md",
+      "kind": "TRIGGERS",
+      "source": "artifact:agent_command:.claude/commands/onboard-workflow.md",
+      "target": "artifact:agent_definition:.claude/agents/ontology-agent.md",
+      "classification": "observed",
+      "depth": 1,
+      "evidence": [
+        {
+          "path": ".claude/agents/ontology-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+          "line_start": 3,
+          "line_end": 3
+        }
+      ]
+    },
+    {
+      "id": "rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/quality-agent.md",
+      "kind": "TRIGGERS",
+      "source": "artifact:agent_command:.claude/commands/onboard-workflow.md",
+      "target": "artifact:agent_definition:.claude/agents/quality-agent.md",
+      "classification": "observed",
+      "depth": 1,
+      "evidence": [
+        {
+          "path": ".claude/agents/quality-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+          "line_start": 3,
+          "line_end": 3
+        }
+      ]
+    },
+    {
+      "id": "rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/transformation-agent.md",
+      "kind": "TRIGGERS",
+      "source": "artifact:agent_command:.claude/commands/onboard-workflow.md",
+      "target": "artifact:agent_definition:.claude/agents/transformation-agent.md",
+      "classification": "observed",
+      "depth": 1,
+      "evidence": [
+        {
+          "path": ".claude/agents/transformation-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+          "line_start": 3,
+          "line_end": 3
+        }
+      ]
+    },
+    {
+      "id": "rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:runbooks/data-onboarding-agent/ontology-staging-agent.md",
+      "kind": "TRIGGERS",
+      "source": "artifact:agent_command:.claude/commands/onboard-workflow.md",
+      "target": "artifact:agent_definition:runbooks/data-onboarding-agent/ontology-staging-agent.md",
+      "classification": "observed",
+      "depth": 1,
+      "evidence": [
+        {
+          "path": "runbooks/data-onboarding-agent/ontology-staging-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+          "line_start": 47,
+          "line_end": 47
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "path": ".claude/commands/onboard-workflow.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "origin": "node:artifact:agent_command:.claude/commands/onboard-workflow.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/dag-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "origin": "node:artifact:agent_definition:.claude/agents/dag-agent.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/iac-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "origin": "node:artifact:agent_definition:.claude/agents/iac-agent.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/metadata-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "origin": "node:artifact:agent_definition:.claude/agents/metadata-agent.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/ontology-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "origin": "node:artifact:agent_definition:.claude/agents/ontology-agent.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/quality-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "origin": "node:artifact:agent_definition:.claude/agents/quality-agent.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/transformation-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "origin": "node:artifact:agent_definition:.claude/agents/transformation-agent.md",
+      "index": 0
+    },
+    {
+      "path": "runbooks/data-onboarding-agent/ontology-staging-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "origin": "node:artifact:agent_definition:runbooks/data-onboarding-agent/ontology-staging-agent.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/dag-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "line_start": 3,
+      "line_end": 3,
+      "origin": "relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/dag-agent.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/iac-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "line_start": 3,
+      "line_end": 3,
+      "origin": "relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/iac-agent.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/metadata-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "line_start": 3,
+      "line_end": 3,
+      "origin": "relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/metadata-agent.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/ontology-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "line_start": 3,
+      "line_end": 3,
+      "origin": "relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/ontology-agent.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/quality-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "line_start": 3,
+      "line_end": 3,
+      "origin": "relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/quality-agent.md",
+      "index": 0
+    },
+    {
+      "path": ".claude/agents/transformation-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "line_start": 3,
+      "line_end": 3,
+      "origin": "relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/transformation-agent.md",
+      "index": 0
+    },
+    {
+      "path": "runbooks/data-onboarding-agent/ontology-staging-agent.md",
+      "artifact_type": "agent_definition",
+      "commit": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+      "line_start": 47,
+      "line_end": 47,
+      "origin": "relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:runbooks/data-onboarding-agent/ontology-staging-agent.md",
+      "index": 0
+    }
+  ],
+  "kinds": [],
+  "counts": {
+    "nodes": 8,
+    "relationships": 7,
+    "evidence": 15
+  },
+  "truncated": false
+}
+============================================================
+2. ENGINEERING GRAPH
+============================================================
+
+count:
+7
+
+counts:
+{'nodes': 1113, 'relationships': 1627, 'unresolved': 449, 'kinds': 14}
+
+[1]
+source:
+artifact:agent_command:.claude/commands/onboard-workflow.md
+
+relationship:
+TRIGGERS
+
+target:
+artifact:agent_definition:.claude/agents/dag-agent.md
+
+evidence:
+[{'path': '.claude/agents/dag-agent.md', 'artifact_type': 'agent_definition', 'commit': 'ef11dac8618b6344d6a5e4add6ef51cd2811d7e0', 'line_start': 3, 'line_end': 3}]
+
+[2]
+source:
+artifact:agent_command:.claude/commands/onboard-workflow.md
+
+relationship:
+TRIGGERS
+
+target:
+artifact:agent_definition:.claude/agents/iac-agent.md
+
+evidence:
+[{'path': '.claude/agents/iac-agent.md', 'artifact_type': 'agent_definition', 'commit': 'ef11dac8618b6344d6a5e4add6ef51cd2811d7e0', 'line_start': 3, 'line_end': 3}]
+
+[3]
+source:
+artifact:agent_command:.claude/commands/onboard-workflow.md
+
+relationship:
+TRIGGERS
+
+target:
+artifact:agent_definition:.claude/agents/metadata-agent.md
+
+evidence:
+[{'path': '.claude/agents/metadata-agent.md', 'artifact_type': 'agent_definition', 'commit': 'ef11dac8618b6344d6a5e4add6ef51cd2811d7e0', 'line_start': 3, 'line_end': 3}]
+
+[4]
+source:
+artifact:agent_command:.claude/commands/onboard-workflow.md
+
+relationship:
+TRIGGERS
+
+target:
+artifact:agent_definition:.claude/agents/ontology-agent.md
+
+evidence:
+[{'path': '.claude/agents/ontology-agent.md', 'artifact_type': 'agent_definition', 'commit': 'ef11dac8618b6344d6a5e4add6ef51cd2811d7e0', 'line_start': 3, 'line_end': 3}]
+
+[5]
+source:
+artifact:agent_command:.claude/commands/onboard-workflow.md
+
+relationship:
+TRIGGERS
+
+target:
+artifact:agent_definition:.claude/agents/quality-agent.md
+
+evidence:
+[{'path': '.claude/agents/quality-agent.md', 'artifact_type': 'agent_definition', 'commit': 'ef11dac8618b6344d6a5e4add6ef51cd2811d7e0', 'line_start': 3, 'line_end': 3}]
+
+[6]
+source:
+artifact:agent_command:.claude/commands/onboard-workflow.md
+
+relationship:
+TRIGGERS
+
+target:
+artifact:agent_definition:.claude/agents/transformation-agent.md
+
+evidence:
+[{'path': '.claude/agents/transformation-agent.md', 'artifact_type': 'agent_definition', 'commit': 'ef11dac8618b6344d6a5e4add6ef51cd2811d7e0', 'line_start': 3, 'line_end': 3}]
+
+[7]
+source:
+artifact:agent_command:.claude/commands/onboard-workflow.md
+
+relationship:
+TRIGGERS
+
+target:
+artifact:agent_definition:runbooks/data-onboarding-agent/ontology-staging-agent.md
+
+evidence:
+[{'path': 'runbooks/data-onboarding-agent/ontology-staging-agent.md', 'artifact_type': 'agent_definition', 'commit': 'ef11dac8618b6344d6a5e4add6ef51cd2811d7e0', 'line_start': 47, 'line_end': 47}]
+
+============================================================
+3. COMBINED EVIDENCE
+============================================================
+
+Repository Retrieval:
+5 candidates
+
+Engineering Graph:
+7 relationships
+
+Combined evidence:
+21 items
+
+[1]
+evidence_type:
+RAG
+
+source:
+4b076e448ccadb40
+
+location:
+TOOL_ROUTING.md:1-40
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[2]
+evidence_type:
+RAG
+
+source:
+e9e6343562fc6d92
+
+location:
+docs/getting-started.md:225-264
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[3]
+evidence_type:
+RAG
+
+source:
+efe91d7b59234a23
+
+location:
+runbooks/environment-setup-agent/agentcore/README.md:65-104
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[4]
+evidence_type:
+RAG
+
+source:
+3cffee283042ab86
+
+location:
+docs/mcp-setup.md:321-343
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[5]
+evidence_type:
+RAG
+
+source:
+5a745e63c78c2e61
+
+location:
+.claude/rules/02-architecture.md:1-40
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[6]
+evidence_type:
+GRAPH
+
+source:
+node:artifact:agent_command:.claude/commands/devops-workflow.md
+
+location:
+.claude/commands/devops-workflow.md:all
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[7]
+evidence_type:
+GRAPH
+
+source:
+node:artifact:agent_command:.claude/commands/onboard-workflow.md
+
+location:
+.claude/commands/onboard-workflow.md:all
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[8]
+evidence_type:
+GRAPH
+
+source:
+node:artifact:agent_definition:.claude/agents/dag-agent.md
+
+location:
+.claude/agents/dag-agent.md:all
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[9]
+evidence_type:
+GRAPH
+
+source:
+node:artifact:agent_definition:.claude/agents/iac-agent.md
+
+location:
+.claude/agents/iac-agent.md:all
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[10]
+evidence_type:
+GRAPH
+
+source:
+node:artifact:agent_definition:.claude/agents/metadata-agent.md
+
+location:
+.claude/agents/metadata-agent.md:all
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[11]
+evidence_type:
+GRAPH
+
+source:
+node:artifact:agent_definition:.claude/agents/ontology-agent.md
+
+location:
+.claude/agents/ontology-agent.md:all
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[12]
+evidence_type:
+GRAPH
+
+source:
+node:artifact:agent_definition:.claude/agents/quality-agent.md
+
+location:
+.claude/agents/quality-agent.md:all
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[13]
+evidence_type:
+GRAPH
+
+source:
+node:artifact:agent_definition:.claude/agents/transformation-agent.md
+
+location:
+.claude/agents/transformation-agent.md:all
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[14]
+evidence_type:
+GRAPH
+
+source:
+node:artifact:agent_definition:runbooks/data-onboarding-agent/ontology-staging-agent.md
+
+location:
+runbooks/data-onboarding-agent/ontology-staging-agent.md:all
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[15]
+evidence_type:
+GRAPH
+
+source:
+relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/dag-agent.md
+
+location:
+.claude/agents/dag-agent.md:3-3
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[16]
+evidence_type:
+GRAPH
+
+source:
+relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/iac-agent.md
+
+location:
+.claude/agents/iac-agent.md:3-3
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[17]
+evidence_type:
+GRAPH
+
+source:
+relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/metadata-agent.md
+
+location:
+.claude/agents/metadata-agent.md:3-3
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[18]
+evidence_type:
+GRAPH
+
+source:
+relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/ontology-agent.md
+
+location:
+.claude/agents/ontology-agent.md:3-3
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[19]
+evidence_type:
+GRAPH
+
+source:
+relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/quality-agent.md
+
+location:
+.claude/agents/quality-agent.md:3-3
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[20]
+evidence_type:
+GRAPH
+
+source:
+relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:.claude/agents/transformation-agent.md
+
+location:
+.claude/agents/transformation-agent.md:3-3
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+[21]
+evidence_type:
+GRAPH
+
+source:
+relationship:rel:TRIGGERS:artifact:agent_command:.claude/commands/onboard-workflow.md:artifact:agent_definition:runbooks/data-onboarding-agent/ontology-staging-agent.md
+
+location:
+runbooks/data-onboarding-agent/ontology-staging-agent.md:47-47
+
+repository:
+sample-Agentic-Ai-Data-Operations
+
+commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+provenance:
+sample-Agentic-Ai-Data-Operations@ef11dac8618b6344d6a5e4add6ef51cd2811d7e0 (main_2026-09-22_ef11dac)
+
+============================================================
+4. AGENT EVIDENCE SELECTION
+============================================================
+
+Selected evidence for verification:
+
+[1]
+file:
+TOOL_ROUTING.md
+
+lines:
+1-40
+
+reason:
+OFFLINE deterministic rank #1 (semantic score 0.810823)
+
+source:
+RAG
+
+[2]
+file:
+docs/getting-started.md
+
+lines:
+225-264
+
+reason:
+OFFLINE deterministic rank #2 (semantic score 0.7925)
+
+source:
+RAG
+
+[3]
+file:
+runbooks/environment-setup-agent/agentcore/README.md
+
+lines:
+65-104
+
+reason:
+OFFLINE deterministic rank #3 (semantic score 0.787125)
+
+source:
+RAG
+
+[4]
+file:
+.claude/agents/dag-agent.md
+
+lines:
+all
+
+reason:
+OFFLINE deterministic rank #4 (graph evidence)
+
+source:
+GRAPH
+
+[5]
+file:
+.claude/agents/dag-agent.md
+
+lines:
+3-3
+
+reason:
+OFFLINE deterministic rank #5 (graph evidence)
+
+source:
+GRAPH
+
+============================================================
+5. READ_FILE VERIFICATION
+============================================================
+
+[1]
+Requested:
+TOOL_ROUTING.md:L1-40
+
+Returned:
+1 | # TOOL_ROUTING.md — Tool Selection for Agentic Data Onboarding
+2 |
+3 | > **Read this file FIRST before any pipeline operation.**
+4 | > It tells you WHICH tool to pick and WHY, with code examples for implementation.
+5 | > For per-phase runtime guardrails and exact MCP tool names, see → [MCP_GUARDRAILS.md](./MCP_GUARDRAILS.md)
+6 | > Canonical server list: [tool-registry/servers.yaml](./tool-registry/servers.yaml)
+7 |
+8 | ---
+9 |
+10 | ## Step 1 — Am I in a Sub-Agent or Main Conversation?
+11 |
+12 | This is the most important question. Answer it before anything else.
+13 |
+14 | | Context | What I can do |
+15 | |---|---|
+16 | | **Main conversation** (Data Onboarding Agent) | Use MCP tools directly + run CLI/Bash fallback |
+17 | | **Sub-agent** (spawned via `Agent` tool) | **Generate scripts and config files ONLY** — no MCP, no AWS execution |
+18 | | **Bash fallback** | Only when MCP tool is unavailable or errored — log why: `Warning: MCP fallback — {server} not loaded for {operation}` |
+19 |
+20 | **If you are a sub-agent: stop reading this file after Step 1. You write files. The main conversation deploys.**
+21 |
+22 | ---
+23 |
+24 | ## Step 2 — MCP Server Status
+25 |
+26 | These are the **13 configured** MCP servers (matching `.mcp.json`). Do not assume others work.
+27 |
+28 | | Category | MCP Server | Tools Available | Use For |
+29 | |---|---|---|---|
+30 | | **REQUIRED** | `glue-athena` | `create_database`, `get_table`, `get_tables`, `create_crawler`, `start_crawler`, `start_job_run`, `get_job_run`, `athena_query` | Glue catalog + Athena queries (custom FastMCP) |
+31 | | **REQUIRED** | `lakeformation` | `create_lf_tag`, `add_lf_tags_to_resource`, `grant_permissions`, `revoke_permissions`, `batch_grant_permissions`, `get_resource_lf_tags` | LF-Tags, TBAC grants, column-level security (custom FastMCP) |
+32 | | **REQUIRED** | `iam` | `list_roles`, `simulate_principal_policy`, `list_role_policies`, `get_role_policy`, `put_role_policy`, `create_role` | Role lookup, permission simulation, policy management |
+33 | | WARN | `cloudtrail` | `lookup_events`, `lake_query`, `list_event_data_stores`, `get_query_results`, `get_query_status` | Audit verification, security checks, compliance |
+34 | | WARN | `redshift` | `list_clusters`, `list_databases`, `list_schemas`, `list_tables`, `list_columns`, `execute_query` | Schema verification, Gold zone validation, catalog checks via Spectrum |
+35 | | WARN | `core` | S3, KMS, Secrets Manager | S3 operations, KMS key management, secrets *(slow startup)* |
+36 | | WARN | `s3-tables` | S3 Tables (Iceberg) operations | S3 Tables management, Iceberg table operations |
+37 | | WARN | `pii-detection` | `detect_pii_in_table`, `scan_database_for_pii`, `create_lf_tags`, `get_pii_columns`, `apply_column_security`, `get_pii_report` | PII detection + LF-Tag application (custom FastMCP, *slow startup*) |
+38 | | OPTIONAL | `sagemaker-catalog` | `put_custom_metadata`, `get_custom_metadata`, `list_tables_with_metadata`, `search_metadata`, `delete_custom_metadata` | Business metadata on Glue tables (custom FastMCP, *slow startup*) |
+39 | | OPTIONAL | `lambda` | `AWS_LambdaFn_LF_access_grant_new`, `AWS_Lambda_LF_revoke_access_new`, `spark_on_aws_lambda`, `tagging_finder`, `LF_access_grant` | Lake Formation grants/revokes, Spark execution, resource tagging |
+40 | | OPTIONAL | `cloudwatch` | Logs, metrics, alarms, dashboards | Monitoring, log queries, metric alarms |
+
+Repository:
+sample-Agentic-Ai-Data-Operations
+
+Commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+Verification:
+SUCCESS
+
+[2]
+Requested:
+docs/getting-started.md:L225-264
+
+Returned:
+225 | ```
+226 |
+227 | **What happens**: Claude creates lineage diagrams, relationship graphs, and structured metadata for governance.
+228 |
+229 | ---
+230 |
+231 | ### Scenario 5a: Demo with Gateway (Cloud-Hosted Tools, Local Agent)
+232 |
+233 | **Need**: Team wants cloud-hosted MCP tools without local Python/uv setup, but agent stays on laptop
+234 |
+235 | ```
+236 | 1. Deploy all 13 MCP servers to Agentcore Gateway:
+237 |    → Run runbooks/environment-setup-agent/02-deploy-agentcore-gateway.md
+238 |
+239 | 2. Switch to Gateway tools:
+240 |    → Replace .mcp.json with .mcp.gateway.json
+241 |
+242 | 3. Onboard data as usual:
+243 |    → Run runbooks/data-onboarding-agent/03-onboard-build-pipeline.md
+244 | ```
+245 |
+246 | **What happens**:
+247 | - Gateway: All 13 MCP servers (4 custom FastMCP + 9 PyPI) hosted in cloud, each with least-privilege IAM
+248 | - Agent: Runs in Claude Code on your laptop (human-in-the-loop)
+249 | - Sub-agents: Spawned locally via Claude Code `Agent` tool
+250 | - Same onboarding workflow as before -- only the tool transport changes (stdio to SSE)
+251 |
+252 | To revert to fully local: `git checkout .mcp.json`
+253 |
+254 | ### Scenario 5b: Production with Runtime (Cloud-Hosted Tools + Cloud Agent)
+255 |
+256 | **Need**: Agent accessible via API for production pipelines, integrations, or multi-user access
+257 |
+258 | ```
+259 | 1. Deploy all 13 MCP servers to Agentcore Gateway:
+260 |    → Run runbooks/environment-setup-agent/02-deploy-agentcore-gateway.md (if not already deployed)
+261 |
+262 | 2. Deploy agent to Agentcore Runtime:
+263 |    → Run runbooks/environment-setup-agent/03-deploy-agentcore-runtime.md
+
+Repository:
+sample-Agentic-Ai-Data-Operations
+
+Commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+Verification:
+SUCCESS
+
+[3]
+Requested:
+runbooks/environment-setup-agent/agentcore/README.md:L65-104
+
+Returned:
+65 | ```
+66 |
+67 | ### Production Mode
+68 |
+69 | The agent runs on Agentcore Runtime in the cloud. MCP tools come from the same Gateway.
+70 |
+71 | | Aspect | Details |
+72 | |--------|---------|
+73 | | **Agent** | Agentcore Runtime (cloud, API-accessible) |
+74 | | **Tools** | All 13 MCP servers on Gateway (same Gateway as demo mode) |
+75 | | **Sub-agents** | Managed internally by Runtime |
+76 | | **Human-in-the-loop** | Optional -- can be fully autonomous or pause for approval via API |
+77 | | **Use case** | Production pipelines, multi-user, API integrations, scheduled onboarding |
+78 |
+79 | **How to set up:**
+80 | 1. Deploy Gateway: run `runbooks/environment-setup-agent/02-deploy-agentcore-gateway.md` (if not already deployed)
+81 | 2. Deploy Runtime: run `runbooks/environment-setup-agent/03-deploy-agentcore-runtime.md`
+82 | 3. Invoke agent via API:
+83 | ```bash
+84 | aws bedrock-agent-runtime invoke-agent \
+85 |   --agent-id {AGENT_ID} \
+86 |   --session-id my-session \
+87 |   --input-text "Onboard customer data from s3://bucket/customers.csv"
+88 | ```
+89 |
+90 | ## Gateway vs Runtime
+91 |
+92 | | Component | What It Does | When to Use |
+93 | |-----------|-------------|-------------|
+94 | | **Gateway** | Hosts all 13 MCP servers in the cloud | Always -- required for both demo and production modes |
+95 | | **Runtime** | Hosts the Data Onboarding Agent as a cloud API | Production mode only -- when the agent needs to be API-accessible |
+96 |
+97 | Runtime requires Gateway (agent needs tools). Gateway can be used standalone with local Claude Code (demo mode).
+98 |
+99 | ## Directory Structure
+100 |
+101 | ```
+102 | agentcore/
+103 | ├── gateway/
+104 | │   ├── config.yaml                       # All 13 server definitions
+
+Repository:
+sample-Agentic-Ai-Data-Operations
+
+Commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+Verification:
+SUCCESS
+
+[4]
+Requested:
+.claude/agents/dag-agent.md
+
+Returned:
+1 | ---
+2 | name: dag-agent
+3 | description: Builds the DAG spec and renders the workload's Airflow DAG via the deterministic codegen renderer. Spawned by the Data Onboarding Agent at Step 4.5. Produces dags/{workload}_dag.py plus unit and integration tests.
+4 | model: sonnet
+5 | tools: Read, Write, Edit, Glob, Grep, Bash
+6 | ---
+7 |
+8 | You are the Orchestration DAG Agent. You produce the Airflow DAG that orchestrates the
+9 | Bronze → Silver → Gold pipeline with correct dependencies, retries, error handling and
+10 | monitoring.
+11 |
+12 | ## Before you start
+13 |
+14 | Read `workloads/{workload_name}/run/context.json` and `run/decisions.jsonl`. The
+15 | `human_answers` object is **authoritative** — if a value in your task prompt disagrees with
+16 | it, the file wins. See `.claude/rules/11-shared-run-context.md`.
+17 |
+18 | `human_answers.schedule` is the human's Phase 1 answer. Use the cron expression they gave.
+19 | **Never** derive a schedule from how often the source updates.
+20 |
+21 | `dag_spec.schedule` requires **both** `cron` and `timezone`. Take the timezone from
+22 | `human_answers.schedule_timezone`. If that key is absent, return `status: "blocked"` with
+23 | the question in `blocking_issues` — do **not** default to UTC or to the machine's zone. A
+24 | silently-invented timezone shifts every downstream run and is a Phase 1 gate violation.
+25 |
+26 | ## Boundaries
+27 |
+28 | - You have **no MCP access**. Do NOT attempt AWS operations. Produce the spec and render the
+29 |   DAG — the orchestrator deploys to MWAA via MCP.
+30 | - You do not spawn other agents.
+31 | - **Never hand-write the DAG file.** A `PreToolUse` hook blocks writes to
+32 |   `workloads/*/dags/`. The DAG comes only from `shared.codegen.renderer.render()`.
+33 |
+34 | ## Deterministic codegen
+35 |
+36 | 1. Build the DAG spec; it validates against `contracts/v1/dag_spec.schema.json`
+37 |    (required: `dataset_name`, `schema_version`, `schedule`, `tasks`; optional: `dag_id`,
+38 |    `retries`, `failure_handling`, `sla`, `tags`).
+39 | 2. `load_spec(path, "dag")` → `(spec, spec_hash)`.
+40 | 3. `render(spec, spec_hash, "airflow_dag", template_version,
+41 |    Path("workloads/{name}/dags/{name}_dag.py"), run_started_at)`. `template_version` from
+42 |    `shared/templates/VERSION` (`DAG_TEMPLATE_VERSION`); `run_started_at` from
+43 |    `run/context.json#started_at`.
+44 | 4. `MissingSlotError` means your spec lacks a slot. Extend the spec — do NOT edit
+45 |    `shared/templates/airflow_dag.py.j2`.
+46 |
+47 | ## Spec rules — what the template expects you to supply
+48 |
+49 | - `dag_id` in `{workload_name}_{frequency}` form (e.g. `sales_data_daily`).
+50 | - `schedule` — the human's cron expression.
+51 | - `retries: 3` with exponential backoff and a 5-minute base delay.
+52 | - Task ids that read as steps: `extract_{source}`, `transform_bronze_to_silver`,
+53 |   `quality_check_silver`, `transform_silver_to_gold`, `quality_check_gold`.
+54 | - `execution_timeout` on every task; `sla` on critical-path tasks.
+55 | - `failure_handling` populated so the template emits `on_failure_callback`.
+56 | - Stage grouping so the template emits `TaskGroup`s (extract, transform, quality, load).
+57 | - Quality gate tasks use `trigger_rule='all_success'` so a failed gate blocks downstream.
+58 |
+59 | Rendered DAGs always get `catchup=False` and `max_active_runs=1`. If the human explicitly
+60 | asked for a backfill, say so in your `decisions[]` and set the spec field — do not flip it
+61 | silently.
+62 |
+63 | ## Never, in the spec or anywhere
+64 |
+65 | - Hardcoded credentials, connection strings, S3 paths, bucket names, or account IDs. All
+66 |   config comes from Airflow Variables and Connections, and **every** `Variable.get()` needs a
+67 |   `default_var` or the DAG will not parse.
+68 | - `provide_context=True` (deprecated — use `**kwargs`).
+69 | - `SubDagOperator` (deprecated — `TaskGroup` instead).
+70 | - `schedule_interval` and `timetable` together.
+71 | - `start_date=datetime.now()` — use a fixed past date.
+72 | - `depends_on_past=True` without explicit justification (cascading failures).
+73 | - `BranchPythonOperator` for a quality gate — use `ShortCircuitOperator` or explicit trigger
+74 |   rules.
+75 | - Disabled retries, or heavy computation inside the DAG file. Delegate to
+76 |   `workloads/{name}/scripts/`.
+77 | - Comments carrying infrastructure detail.
+78 |
+79 | ## Multi-account
+80 |
+81 | If `account_topology.mode == "multi"`, the spec must make the DAG read
+82 | `Variable.get("glue_catalog_account_id", default_var="")` at import time and pass
+83 | `--catalog_account_id` in every Glue job's `script_args`, plus a `doc_md` note pointing at
+84 | `docs/multi-account-deployment.md`. In single-account mode, omit both.
+85 |
+86 | ## Reuse — check before you specify
+87 |
+88 | ```
+89 | ls workloads/{workload_name}/    # existing files — read them first
+90 | ls shared/operators/             # reusable operators
+91 | ls shared/hooks/                 # reusable hooks
+92 | ls shared/utils/                 # utility functions
+93 | ```
+94 |
+95 | Reference what exists rather than duplicating it. For cross-DAG dependencies use
+96 | `ExternalTaskSensor` (with `timeout` and `poke_interval` set) or `TriggerDagRunOperator`, and
+97 | document the dependency in the workload README.
+98 |
+99 | ## Scheduling reference
+100 |
+101 | | Pattern | Cron | Use case |
+102 | |---|---|---|
+103 | | Daily batch | `0 6 * * *` | standard daily refresh |
+104 | | Hourly incremental | `0 * * * *` | near-real-time |
+105 | | Weekly aggregate | `0 8 * * 1` | weekly summary tables |
+106 | | Monthly reporting | `0 6 1 * *` | month-end reports |
+107 | | Event-driven | `None` (triggered) | on-demand |
+108 |
+109 | ## Test gate — you must pass it before returning
+110 |
+111 | 1. Unit tests → `workloads/{workload_name}/tests/unit/test_dag.py`
+112 | 2. Integration tests → `workloads/{workload_name}/tests/integration/test_dag.py`
+113 | 3. Include a DAG-parse test: importing the module must raise nothing and produce exactly one
+114 |    DAG. A DAG that fails to parse never appears in the Airflow UI.
+115 | 4. Run both with `pytest`; fix and re-run on failure. Do NOT return with failing tests.
+116 |
+117 | ## Return format
+118 |
+119 | End your final message with a single fenced ```json block conforming to `AgentOutput`
+120 | (see `shared/templates/agent_output_schema.py`). Append your decisions to
+121 | `run/decisions.jsonl` before returning.
+
+Repository:
+sample-Agentic-Ai-Data-Operations
+
+Commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+Verification:
+SUCCESS
+
+[5]
+Requested:
+.claude/agents/dag-agent.md:L3-3
+
+Returned:
+3 | description: Builds the DAG spec and renders the workload's Airflow DAG via the deterministic codegen renderer. Spawned by the Data Onboarding Agent at Step 4.5. Produces dags/{workload}_dag.py plus unit and integration tests.
+
+Repository:
+sample-Agentic-Ai-Data-Operations
+
+Commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+Verification:
+SUCCESS
+
+============================================================
+6. VERIFIED EVIDENCE
+============================================================
+
+Evidence 1
+----------
+Type:
+CODE
+
+Repository:
+sample-Agentic-Ai-Data-Operations
+
+Commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+File:
+TOOL_ROUTING.md
+
+Lines:
+1-40
+
+Content:
+# TOOL_ROUTING.md — Tool Selection for Agentic Data Onboarding
+
+> **Read this file FIRST before any pipeline operation.**
+> It tells you WHICH tool to pick and WHY, with code examples for implementation.
+> For per-phase runtime guardrails and exact MCP tool names, see → [MCP_GUARDRAILS.md](./MCP_GUARDRAILS.md)
+> Canonical server list: [tool-registry/servers.yaml](./tool-registry/servers.yaml)
+
+---
+
+## Step 1 — Am I in a Sub-Agent or Main Conversation?
+
+This is the most important question. Answer it before anything else.
+
+| Context | What I can do |
+|---|---|
+| **Main conversation** (Data Onboarding Agent) | Use MCP tools directly + run CLI/Bash fallback |
+| **Sub-agent** (spawned via `Agent` tool) | **Generate scripts and config files ONLY** — no MCP, no AWS execution |
+| **Bash fallback** | Only when MCP tool is unavailable or errored — log why: `Warning: MCP fallback — {server} not loaded for {operation}` |
+
+**If you are a sub-agent: stop reading this file after Step 1. You write files. The main conversation deploys.**
+
+---
+
+## Step 2 — MCP Server Status
+
+These are the **13 configured** MCP servers (matching `.mcp.json`). Do not assume others work.
+
+| Category | MCP Server | Tools Available | Use For |
+|---|---|---|---|
+| **REQUIRED** | `glue-athena` | `create_database`, `get_table`, `get_tables`, `create_crawler`, `start_crawler`, `start_job_run`, `get_job_run`, `athena_query` | Glue catalog + Athena queries (custom FastMCP) |
+| **REQUIRED** | `lakeformation` | `create_lf_tag`, `add_lf_tags_to_resource`, `grant_permissions`, `revoke_permissions`, `batch_grant_permissions`, `get_resource_lf_tags` | LF-Tags, TBAC grants, column-level security (custom FastMCP) |
+| **REQUIRED** | `iam` | `list_roles`, `simulate_principal_policy`, `list_role_policies`, `get_role_policy`, `put_role_policy`, `create_role` | Role lookup, permission simulation, policy management |
+| WARN | `cloudtrail` | `lookup_events`, `lake_query`, `list_event_data_stores`, `get_query_results`, `get_query_status` | Audit verification, security checks, compliance |
+| WARN | `redshift` | `list_clusters`, `list_databases`, `list_schemas`, `list_tables`, `list_columns`, `execute_query` | Schema verification, Gold zone validation, catalog checks via Spectrum |
+| WARN | `core` | S3, KMS, Secrets Manager | S3 operations, KMS key management, secrets *(slow startup)* |
+| WARN | `s3-tables` | S3 Tables (Iceberg) operations | S3 Tables management, Iceberg table operations |
+| WARN | `pii-detection` | `detect_pii_in_table`, `scan_database_for_pii`, `create_lf_tags`, `get_pii_columns`, `apply_column_security`, `get_pii_report` | PII detection + LF-Tag application (custom FastMCP, *slow startup*) |
+| OPTIONAL | `sagemaker-catalog` | `put_custom_metadata`, `get_custom_metadata`, `list_tables_with_metadata`, `search_metadata`, `delete_custom_metadata` | Business metadata on Glue tables (custom FastMCP, *slow startup*) |
+| OPTIONAL | `lambda` | `AWS_LambdaFn_LF_access_grant_new`, `AWS_Lambda_LF_revoke_access_new`, `spark_on_aws_lambda`, `tagging_finder`, `LF_access_grant` | Lake Formation grants/revokes, Spark execution, resource tagging |
+| OPTIONAL | `cloudwatch` | Logs, metrics, alarms, dashboards | Monitoring, log queries, metric alarms |
+
+Evidence 2
+----------
+Type:
+CODE
+
+Repository:
+sample-Agentic-Ai-Data-Operations
+
+Commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+File:
+docs/getting-started.md
+
+Lines:
+225-264
+
+Content:
+```
+
+**What happens**: Claude creates lineage diagrams, relationship graphs, and structured metadata for governance.
+
+---
+
+### Scenario 5a: Demo with Gateway (Cloud-Hosted Tools, Local Agent)
+
+**Need**: Team wants cloud-hosted MCP tools without local Python/uv setup, but agent stays on laptop
+
+```
+1. Deploy all 13 MCP servers to Agentcore Gateway:
+   → Run runbooks/environment-setup-agent/02-deploy-agentcore-gateway.md
+
+2. Switch to Gateway tools:
+   → Replace .mcp.json with .mcp.gateway.json
+
+3. Onboard data as usual:
+   → Run runbooks/data-onboarding-agent/03-onboard-build-pipeline.md
+```
+
+**What happens**:
+- Gateway: All 13 MCP servers (4 custom FastMCP + 9 PyPI) hosted in cloud, each with least-privilege IAM
+- Agent: Runs in Claude Code on your laptop (human-in-the-loop)
+- Sub-agents: Spawned locally via Claude Code `Agent` tool
+- Same onboarding workflow as before -- only the tool transport changes (stdio to SSE)
+
+To revert to fully local: `git checkout .mcp.json`
+
+### Scenario 5b: Production with Runtime (Cloud-Hosted Tools + Cloud Agent)
+
+**Need**: Agent accessible via API for production pipelines, integrations, or multi-user access
+
+```
+1. Deploy all 13 MCP servers to Agentcore Gateway:
+   → Run runbooks/environment-setup-agent/02-deploy-agentcore-gateway.md (if not already deployed)
+
+2. Deploy agent to Agentcore Runtime:
+   → Run runbooks/environment-setup-agent/03-deploy-agentcore-runtime.md
+
+
+Evidence 3
+----------
+Type:
+CODE
+
+Repository:
+sample-Agentic-Ai-Data-Operations
+
+Commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+File:
+runbooks/environment-setup-agent/agentcore/README.md
+
+Lines:
+65-104
+
+Content:
+```
+
+### Production Mode
+
+The agent runs on Agentcore Runtime in the cloud. MCP tools come from the same Gateway.
+
+| Aspect | Details |
+|--------|---------|
+| **Agent** | Agentcore Runtime (cloud, API-accessible) |
+| **Tools** | All 13 MCP servers on Gateway (same Gateway as demo mode) |
+| **Sub-agents** | Managed internally by Runtime |
+| **Human-in-the-loop** | Optional -- can be fully autonomous or pause for approval via API |
+| **Use case** | Production pipelines, multi-user, API integrations, scheduled onboarding |
+
+**How to set up:**
+1. Deploy Gateway: run `runbooks/environment-setup-agent/02-deploy-agentcore-gateway.md` (if not already deployed)
+2. Deploy Runtime: run `runbooks/environment-setup-agent/03-deploy-agentcore-runtime.md`
+3. Invoke agent via API:
+```bash
+aws bedrock-agent-runtime invoke-agent \
+  --agent-id {AGENT_ID} \
+  --session-id my-session \
+  --input-text "Onboard customer data from s3://bucket/customers.csv"
+```
+
+## Gateway vs Runtime
+
+| Component | What It Does | When to Use |
+|-----------|-------------|-------------|
+| **Gateway** | Hosts all 13 MCP servers in the cloud | Always -- required for both demo and production modes |
+| **Runtime** | Hosts the Data Onboarding Agent as a cloud API | Production mode only -- when the agent needs to be API-accessible |
+
+Runtime requires Gateway (agent needs tools). Gateway can be used standalone with local Claude Code (demo mode).
+
+## Directory Structure
+
+```
+agentcore/
+├── gateway/
+│   ├── config.yaml                       # All 13 server definitions
+
+Evidence 4
+----------
+Type:
+CODE
+
+Repository:
+sample-Agentic-Ai-Data-Operations
+
+Commit:
+ef11dac8618b6344d6a5e4add6ef51cd2811d7e0
+
+File:
+.claude/agents/dag-agent.md
+
+Lines:
+all
+
+Content:
+---
+name: dag-agent
+description: Builds the DAG spec and renders the workload's Airflow DAG via the deterministic codegen renderer. Spawned by the Data Onboarding Agent at Step 4.5. Produces dags/{workload}_dag.py plus unit and integration tests.
+model: sonnet
+tools: Read, Write, Edit, Glob, Grep, Bash
+---
+
+You are the Orchestration DAG Agent. You produce the Airflow DAG that orchestrates the
+Bronze → Silver → Gold pipeline with correct dependencies, retries, error handling and
+monitoring.
+
+## Before you start
+
+Read `workloads/{workload_name}/run/context.json` and `run/decisions.jsonl`. The
+`human_answers` object is **authoritative** — if a value in your task prompt disagrees with
+it, the file wins. See `.claude/rules/11-shared-run-context.md`.
+
+`human_answers.schedule` is the human's Phase 1 answer. Use the cron expression they gave.
+**Never** derive a schedule from how often the source updates.
+
+`dag_spec.schedule` requires **both** `cron` and `timezone`. Take the timezone from
+`human_answers.schedule_timezone`. If that key is absent, return `status: "blocked"` with
+the question in `blocking_issues` — do **not** default to UTC or to the machine's zone. A
+silently-invented timezone shifts every downstream run and is a Phase 1 gate violation.
+
+## Boundaries
+
+- You have **no MCP access**. Do NOT attempt AWS operations. Produce the spec and render the
+  DAG — the orchestrator deploys to MWAA via MCP.
+- You do not spawn other agents.
+- **Never hand-write the DAG file.** A `PreToolUse` hook blocks writes to
+  `workloads/*/dags/`. The DAG comes only from `shared.codegen.renderer.render()`.
+
+## Deterministic codegen
+
+1. Build the DAG spec; it validates against `contracts/v1/dag_spec.schema.json`
+   (required: `dataset_name`, `schema_version`, `schedule`, `tasks`; optional: `dag_id`,
+   `retries`, `failure_handling`, `sla`, `tags`).
+2. `load_spec(path, "dag")` → `(spec, spec_hash)`.
+3. `render(spec, spec_hash, "airflow_dag", template_version,
+   Path("workloads/{name}/dags/{name}_dag.py"), run_started_at)`. `template_version` from
+   `shared/templates/VERSION` (`DAG_TEMPLATE_VERSION`); `run_started_at` from
+   `run/context.json#started_at`.
+4. `MissingSlotError` means your spec lacks a slot. Extend the spec — do NOT edit
+   `shared/templates/airflow_dag.py.j2`.
+
+## Spec rules — what the template expects you to supply
+
+- `dag_id` in `{workload_name}_{frequency}` form (e.g. `sales_data_daily`).
+- `schedule` — the human's cron expression.
+- `retries: 3` with exponential backoff and a 5-minute base delay.
+- Task ids that read as steps: `extract_{source}`, `transform_bronze_to_silver`,
+  `quality_check_silver`, `transform_silver_to_gold`, `quality_check_gold`.
+- `execution_timeout` on every task; `sla` on critical-path tasks.
+- `failure_handling` populated so the template emits `on_failure_callback`.
+- Stage grouping so the template emits `TaskGroup`s (extract, transform, quality, load).
+- Quality gate tasks use `trigger_rule='all_success'` so a failed gate blocks downstream.
+
+Rendered DAGs always get `catchup=False` and `max_active_runs=1`. If the human explicitly
+asked for a backfill, say so in your `decisions[]` and set the spec field — do not flip it
+silently.
+
+## Never, in the spec or anywhere
+
+- Hardcoded credentials, connection strings, S3 paths, bucket names, or account IDs. All
+  config comes from Airflow Variables and Connections, and **every** `Variable.get()` needs a
+  `default_var` or the DAG will not parse.
+- `provide_context=True` (deprecated — use `**kwargs`).
+- `SubDagOperator` (deprecated — `TaskGroup` instead).
+- `schedule_interval` and `timetable` together.
+- `start_date=datetime.now()` — use a fixed past date.
+- `depends_on_past=True` without explicit justification (cascading failures).
+- `BranchPythonOperator` for a quality gate — use `ShortCircuitOperator` or explicit trigger
+  rules.
+- Disabled retries, or heavy computation inside the DAG file. Delegate to
+  `workloads/{name}/scripts/`.
+- Comments carrying infrastructure detail.
+
+## Multi-account
+
+If `account_topology.mode == "multi"`, the spec must make the DAG read
+`Variable.get("glue_catalog_account_id", default_var="")` at import time and pass
+`--catalog_account_id` in every Glue job's `script_args`, plus a `doc_md` note pointing at
+`docs/multi-account-deployment.md`. In single-account mode, omit both.
+
+## Reuse — check before you specify
+
+```
+ls workloads/{workload_name}/    # existing files — read them first
+ls shared/operators/             # reusable operators
+ls shared/hooks/                 # reusable hooks
+ls shared/utils/                 # utility functions
+```
+
+Reference what exists rather than duplicating it. For cross-DAG dependencies use
+`ExternalTaskSensor` (with `timeout` and `poke_interval` set) or `TriggerDagRunOperator`, and
+document the dependency in the workload README.
+
+## Scheduling reference
+
+| Pattern | Cron | Use case |
+|---|---|---|
+| Daily batch | `0 6 * * *` | standard daily refresh |
+| Hourly incremental | `0 * * * *` | near-real-time |
+| Weekly aggregate | `0 8 * * 1` | weekly summary tables |
+| Monthly reporting | `0 6 1 * *` | month-end reports |
+| Event-driven | `None` (triggered) | on-demand |
+
+## Test gate — you must pass it before returning
+
+1. Unit tests → `workloads/{workload_name}/tests/unit/test_dag.py`
+2. Integration tests → `workloads/{workload_name}/tests/integration/test_dag.py`
+3. Include a DAG-parse test: importing the module must raise nothing and produce exactly one
+   DAG. A DAG that fails to parse never appears in the Airflow UI.
+4. Run both with `pytest`; fix and re-run on failure. Do NOT return with failing tests.
+
+## Return format
+
+End your final message with a single fenced ```json block conforming to `AgentOutput`
+(see `shared/templates/agent_output_schema.py`). Append your decisions to
+`run/decisions.jsonl` before returning.
+
+
+Evidence 5
+----------
+Type:
+GRAPH_RELATIONSHIP
+
+Source:
+artifact:agent_command:.claude/commands/onboard-workflow.md
+
+Relationship:
+TRIGGERS
+
+Target:
+artifact:agent_definition:.claude/agents/dag-agent.md
+
+Supporting source:
+.claude/agents/dag-agent.md:3-3
+
+============================================================
+FLOW COMPLETE
+============================================================
+
+============================================================
+SUMMARY
+============================================================
+
+Repository retrieval: PASS
+Engineering graph: PASS
+Evidence selection: PASS
+Read-file verification: PASS
+Provenance: PASS
+
+Overall: PASS
+saved: C:\self-study\ai\build\repository-intelligence\artifacts\retrieval_flow\20261010_150645\flow_result.json
+saved: C:\self-study\ai\build\repository-intelligence\artifacts\retrieval_flow\20261010_150645\flow_summary.md

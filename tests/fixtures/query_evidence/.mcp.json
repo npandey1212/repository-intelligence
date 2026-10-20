@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "custom_server_a": {
+      "command": "python",
+      "args": ["mcp-servers/custom-server-a/server.py"]
+    }
+  }
+}

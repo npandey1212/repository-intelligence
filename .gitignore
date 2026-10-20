@@ -1,0 +1,19 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Isolated local environment (created by `python -m venv .venv`)
+.venv/
+
+# Runtime execution telemetry (Agent traces — regenerable)
+runtime/
+
+# Durable local databases and retrieval indexes (memory, RAG — M18)
+db_store/

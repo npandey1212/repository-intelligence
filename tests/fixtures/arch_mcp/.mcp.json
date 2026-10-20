@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "records": {
+      "command": "records-mcp-server",
+      "tools": ["fetch_record"]
+    }
+  }
+}

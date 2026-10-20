@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/repository_knowledge_model.v1.json",
+  "title": "repository_knowledge_model.v1",
+  "description": "Deterministic knowledge model envelope. V1 populates engineering only; architecture and mappings remain empty until later milestones.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "repository",
+    "analysis",
+    "engineering",
+    "architecture",
+    "mappings",
+    "metadata"
+  ],
+  "$defs": {
+    "EvidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "artifact_type", "commit"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "artifact_type": { "type": "string", "minLength": 1 },
+        "commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "line_start": { "type": "integer", "minimum": 1 },
+        "line_end": { "type": "integer", "minimum": 1 },
+        "symbol": { "type": "string", "minLength": 1 }
+      }
+    },
+    "Classification": {
+      "type": "string",
+      "enum": ["observed", "derived", "inferred", "conflicting"]
+    },
+    "EngineeringNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "subkind", "classification", "evidence"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "type": "string", "minLength": 1 },
+        "subkind": { "type": "string", "minLength": 1 },
+        "classification": { "$ref": "#/$defs/Classification" },
+        "attributes": { "type": "object", "additionalProperties": true },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/EvidenceRef" }
+        }
+      }
+    },
+    "EngineeringRelationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "source", "target", "classification", "evidence"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "CONTAINS",
+            "IMPORTS",
+            "DEPENDS_ON",
+            "TRIGGERS",
+            "DECLARES",
+            "EXPOSED_BY",
+            "CONFIGURED_BY"
+          ]
+        },
+        "source": { "type": "string", "minLength": 1 },
+        "target": { "type": "string", "minLength": 1 },
+        "classification": { "$ref": "#/$defs/Classification" },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/EvidenceRef" }
+        }
+      }
+    },
+    "UnresolvedClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "target", "kind", "reason", "evidence"],
+      "properties": {
+        "source": { "type": "string", "minLength": 1 },
+        "target": { "type": "string", "minLength": 1 },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "CONTAINS",
+            "IMPORTS",
+            "DEPENDS_ON",
+            "TRIGGERS",
+            "DECLARES",
+            "EXPOSED_BY",
+            "CONFIGURED_BY"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "enum": [
+            "target_not_resolved",
+            "ambiguous_identity",
+            "missing_endpoint",
+            "unsupported_relationship"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/EvidenceRef" }
+        }
+      }
+    },
+    "GraphSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodes", "relationships", "unresolved", "metadata"],
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/EngineeringNode" }
+        },
+        "relationships": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/EngineeringRelationship" }
+        },
+        "unresolved": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/UnresolvedClaim" }
+        },
+        "metadata": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "AnalyzerRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["analyzer", "method"],
+      "properties": {
+        "analyzer": { "type": "string", "minLength": 1 },
+        "method": { "type": "string", "minLength": 1 },
+        "library": { "type": "string" },
+        "version": { "type": "string" }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "repository_knowledge_model.v1"
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "url", "commit_sha"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "minLength": 1 },
+        "commit_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy", "analyzers"],
+      "properties": {
+        "strategy": { "type": "string", "const": "deterministic" },
+        "analyzers": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AnalyzerRef" }
+        }
+      }
+    },
+    "engineering": { "$ref": "#/$defs/GraphSection" },
+    "architecture": { "$ref": "#/$defs/GraphSection" },
+    "mappings": {
+      "type": "array",
+      "description": "Engineering↔architecture mappings; empty in V1.",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "metadata": { "type": "object", "additionalProperties": true }
+  }
+}

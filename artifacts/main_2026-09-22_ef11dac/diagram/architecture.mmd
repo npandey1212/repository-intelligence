@@ -1,0 +1,20 @@
+flowchart TD
+    node_001["02-deep-agent-logging"]
+    node_002["02-deploy-agentcore-gateway"]
+    node_003["03-deploy-agentcore-runtime"]
+    node_004["agent-log"]
+    node_005["dag-agent"]
+    node_006["Data Onboarding Agent"]
+    node_007["iac-agent"]
+    node_008["metadata-agent"]
+    node_009["ontology-agent"]
+    node_010["ontology-staging-agent"]
+    node_011["quality-agent"]
+    node_012["transformation-agent"]
+    node_006 -->|TRIGGERS| node_005
+    node_006 -->|TRIGGERS| node_007
+    node_006 -->|TRIGGERS| node_008
+    node_006 -->|TRIGGERS| node_009
+    node_006 -->|TRIGGERS| node_010
+    node_006 -->|TRIGGERS| node_011
+    node_006 -->|TRIGGERS| node_012

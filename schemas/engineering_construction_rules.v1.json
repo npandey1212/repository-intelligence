@@ -1,0 +1,438 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/engineering_construction_rules.v1.json",
+  "title": "engineering_construction_rules.v1",
+  "description": "Deterministic construction rulebook: how frozen repository_facts.v2 observations become EngineeringModel nodes, relationships, identities, evidence, unresolved candidates, and validation invariants. Not the graph itself.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "input",
+    "node_rules",
+    "relationship_rules",
+    "identity_rules",
+    "evidence_rules",
+    "unresolved_rules",
+    "validation_rules",
+    "deferred"
+  ],
+  "$defs": {
+    "FactMatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Selects M2 facts by open fact_type/kind pair.",
+      "required": ["fact_type", "kind"],
+      "properties": {
+        "fact_type": { "type": "string", "minLength": 1 },
+        "kind": { "type": "string", "minLength": 1 }
+      }
+    },
+    "IdentityTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template", "from_attributes"],
+      "properties": {
+        "template": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Format string with {placeholders} bound to from_attributes (and fixed segments). Deterministic; no UUIDs, timestamps, or analyzer names."
+        },
+        "from_attributes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "M2 attributes path (and related stable fields) used to fill the template."
+        },
+        "deterministic": { "type": "boolean", "const": true }
+      }
+    },
+    "NodeRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "match",
+        "action",
+        "node",
+        "identity",
+        "classification",
+        "requires_evidence"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "pattern": "^node\\.[a-z0-9_]+\\.[a-z0-9_]+$",
+          "description": "Unique rule id: node.<fact_type>.<kind>."
+        },
+        "match": { "$ref": "#/$defs/FactMatch" },
+        "action": {
+          "type": "string",
+          "enum": ["CREATE_NODE", "EVIDENCE_ONLY"]
+        },
+        "node": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "subkind"],
+          "properties": {
+            "kind": { "type": "string", "minLength": 1 },
+            "subkind": { "type": "string", "minLength": 1 }
+          },
+          "description": "EngineeringModel node kind/subkind. For EVIDENCE_ONLY, informational only (no node emitted)."
+        },
+        "identity": { "$ref": "#/$defs/IdentityTemplate" },
+        "classification": {
+          "type": "string",
+          "enum": ["observed", "derived", "inferred", "conflicting"]
+        },
+        "requires_evidence": { "type": "boolean" },
+        "dedupe_by": {
+          "type": "string",
+          "enum": ["identity"],
+          "description": "Multiple matching facts with the same identity collapse to one canonical node."
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "EndpointResolver": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resolve"],
+      "properties": {
+        "resolve": {
+          "type": "string",
+          "enum": [
+            "path_node",
+            "imported_module",
+            "external_package",
+            "fact_node_identity"
+          ],
+          "description": "Deterministic endpoint resolution strategy against known engineering nodes / documented external vocabularies."
+        },
+        "from_attributes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "strategies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "exact_module_path",
+              "dotted_module_to_path",
+              "suffix_path_match",
+              "declared_name"
+            ]
+          },
+          "description": "Ordered strategies for imported_module / external_package resolvers."
+        },
+        "node_kind": { "type": "string" },
+        "node_subkind": { "type": "string" },
+        "on_failure": {
+          "type": "string",
+          "enum": ["UNRESOLVED"]
+        },
+        "unresolved_reason": {
+          "type": "string",
+          "enum": [
+            "target_not_resolved",
+            "ambiguous_identity",
+            "missing_endpoint",
+            "unsupported_relationship"
+          ]
+        }
+      }
+    },
+    "RelationshipRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "match",
+        "action",
+        "relationship",
+        "source",
+        "target",
+        "classification",
+        "requires_evidence"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "pattern": "^rel\\.[a-z0-9_]+\\.[a-z0-9_]+$"
+        },
+        "match": { "$ref": "#/$defs/FactMatch" },
+        "action": {
+          "type": "string",
+          "enum": ["CREATE_RELATIONSHIP", "CREATE_DERIVED_RELATIONSHIP", "CREATE_RELATIONSHIP_IF_RESOLVED"]
+        },
+        "relationship": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": ["IMPORTS", "DEPENDS_ON", "CONTAINS", "TRIGGERS", "DECLARES", "EXPOSED_BY", "CONFIGURED_BY"]
+            }
+          }
+        },
+        "source": {
+          "allOf": [{ "$ref": "#/$defs/EndpointResolver" }],
+          "description": "How to resolve the relationship source endpoint."
+        },
+        "target": { "$ref": "#/$defs/EndpointResolver" },
+        "derive": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "For CREATE_DERIVED_RELATIONSHIP: path/attribute condition that must hold; no name-only guessing.",
+          "required": ["condition"],
+          "properties": {
+            "condition": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Named deterministic condition (evaluated by a future builder against M2 attributes / existing nodes)."
+            },
+            "description": { "type": "string" }
+          }
+        },
+        "classification": {
+          "type": "string",
+          "enum": ["observed", "derived", "inferred", "conflicting"]
+        },
+        "requires_evidence": { "type": "boolean" },
+        "notes": { "type": "string" }
+      }
+    },
+    "IdentityRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "applies_to", "template", "forbidden"],
+      "properties": {
+        "rule_id": { "type": "string", "minLength": 1 },
+        "applies_to": {
+          "type": "string",
+          "enum": ["node", "relationship"]
+        },
+        "template": { "type": "string", "minLength": 1 },
+        "stable_fields": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "forbidden": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "analyzer",
+              "source",
+              "uuid",
+              "timestamp",
+              "array_index",
+              "random"
+            ]
+          }
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "EvidenceOnlyEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fact_type", "kind", "reason"],
+      "properties": {
+        "fact_type": { "type": "string", "minLength": 1 },
+        "kind": { "type": "string", "minLength": 1 },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "UnresolvedReason": {
+      "type": "string",
+      "enum": [
+        "target_not_resolved",
+        "ambiguous_identity",
+        "missing_endpoint",
+        "unsupported_relationship"
+      ]
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "engineering_construction_rules.v1"
+    },
+    "description": { "type": "string" },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fact_schema"],
+      "properties": {
+        "fact_schema": {
+          "type": "string",
+          "const": "repository_facts.v2"
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "classification_vocabulary": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "string",
+        "enum": ["observed", "derived", "inferred", "conflicting"]
+      }
+    },
+    "node_vocabulary": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "subkinds"],
+        "properties": {
+          "kind": { "type": "string", "minLength": 1 },
+          "subkinds": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "relationship_vocabulary": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["IMPORTS", "DEPENDS_ON", "CONTAINS", "TRIGGERS", "DECLARES", "EXPOSED_BY", "CONFIGURED_BY"]
+      }
+    },
+    "node_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/NodeRule" }
+    },
+    "relationship_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/RelationshipRule" }
+    },
+    "identity_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/IdentityRule" }
+    },
+    "evidence_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_node_requires_evidence",
+        "canonical_relationship_requires_evidence",
+        "derived_relationship_requires_contributing_facts",
+        "unresolved_retains_evidence",
+        "minimum_evidence",
+        "propagation",
+        "evidence_only"
+      ],
+      "properties": {
+        "canonical_node_requires_evidence": { "type": "boolean", "const": true },
+        "canonical_relationship_requires_evidence": {
+          "type": "boolean",
+          "const": true
+        },
+        "derived_relationship_requires_contributing_facts": {
+          "type": "boolean",
+          "const": true
+        },
+        "unresolved_retains_evidence": { "type": "boolean", "const": true },
+        "minimum_evidence": { "type": "integer", "minimum": 1, "const": 1 },
+        "propagation": {
+          "type": "string",
+          "enum": ["copy_m2_evidence_refs"]
+        },
+        "evidence_only": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/EvidenceOnlyEntry" }
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "unresolved_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reasons",
+        "container",
+        "excluded_from_canonical_relationships",
+        "required_fields"
+      ],
+      "properties": {
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/UnresolvedReason" }
+        },
+        "container": {
+          "type": "string",
+          "const": "engineering.unresolved[]"
+        },
+        "excluded_from_canonical_relationships": {
+          "type": "boolean",
+          "const": true
+        },
+        "required_fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["source", "target", "kind", "reason", "evidence"]
+          }
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "validation_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unique_node_ids",
+        "unique_relationship_ids",
+        "relationship_source_must_exist",
+        "relationship_target_must_exist",
+        "canonical_node_requires_evidence",
+        "canonical_relationship_requires_evidence",
+        "deterministic_node_identity",
+        "deterministic_relationship_identity",
+        "deterministic_output_order",
+        "unresolved_claims_excluded_from_canonical_relationships",
+        "no_analyzer_name_in_entity_identity",
+        "no_random_ids_for_canonical_entities",
+        "no_duplicate_physical_artifact_nodes"
+      ],
+      "properties": {
+        "unique_node_ids": { "type": "boolean", "const": true },
+        "unique_relationship_ids": { "type": "boolean", "const": true },
+        "relationship_source_must_exist": { "type": "boolean", "const": true },
+        "relationship_target_must_exist": { "type": "boolean", "const": true },
+        "canonical_node_requires_evidence": { "type": "boolean", "const": true },
+        "canonical_relationship_requires_evidence": {
+          "type": "boolean",
+          "const": true
+        },
+        "deterministic_node_identity": { "type": "boolean", "const": true },
+        "deterministic_relationship_identity": { "type": "boolean", "const": true },
+        "deterministic_output_order": { "type": "boolean", "const": true },
+        "unresolved_claims_excluded_from_canonical_relationships": {
+          "type": "boolean",
+          "const": true
+        },
+        "no_analyzer_name_in_entity_identity": { "type": "boolean", "const": true },
+        "no_random_ids_for_canonical_entities": { "type": "boolean", "const": true },
+        "no_duplicate_physical_artifact_nodes": { "type": "boolean", "const": true },
+        "notes": { "type": "string" }
+      }
+    },
+    "deferred": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Behaviors intentionally out of scope for V1 (architecture inference, LLM, graph DBs, …)."
+    }
+  }
+}

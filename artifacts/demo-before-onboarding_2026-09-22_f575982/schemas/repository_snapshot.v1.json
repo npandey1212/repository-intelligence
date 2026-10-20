@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/repository_snapshot.v1.json",
+  "title": "repository_snapshot.v1",
+  "description": "Reproducible identification of a Git repository state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "repository",
+    "snapshot",
+    "workspace",
+    "analyzer"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "repository_snapshot.v1"
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "url"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Repository name derived from the URL."
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Repository URL supplied as input."
+        }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "commit_sha",
+        "commit_short_sha",
+        "captured_at"
+      ],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Ref supplied by the caller (tag, branch, or SHA)."
+        },
+        "commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$",
+          "description": "Full 40-character SHA; authoritative state id."
+        },
+        "commit_short_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{4,40}$",
+          "description": "Short SHA for human-readable snapshot ids."
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO-8601 UTC timestamp of this capture event."
+        }
+      }
+    },
+    "workspace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["working_tree_clean"],
+      "properties": {
+        "working_tree_clean": {
+          "type": "boolean",
+          "description": "True when git status reports no local changes."
+        }
+      }
+    },
+    "analyzer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

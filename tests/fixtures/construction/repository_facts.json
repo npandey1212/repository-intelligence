@@ -1,0 +1,392 @@
+{
+  "schema_version": "repository_facts.v2",
+  "snapshot": {
+    "commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "snapshot_id": "fixture_2026-09-22_aaaaaaaa",
+    "repository_url": "https://example.local/fixture.git"
+  },
+  "repository": {
+    "name": "fixture",
+    "url": "https://example.local/fixture.git"
+  },
+  "facts": [
+    {
+      "fact_id": "fact:directory:src",
+      "fact_type": "directory",
+      "kind": "repository_directory",
+      "source": "filesystem",
+      "attributes": { "path": "src" },
+      "evidence": [
+        {
+          "path": "src",
+          "artifact_type": "directory",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:file:src/main.py",
+      "fact_type": "file",
+      "kind": "repository_file",
+      "source": "filesystem",
+      "attributes": { "path": "src/main.py", "type": "python", "size": 64 },
+      "evidence": [
+        {
+          "path": "src/main.py",
+          "artifact_type": "file",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:file:src/service.py",
+      "fact_type": "file",
+      "kind": "repository_file",
+      "source": "filesystem",
+      "attributes": { "path": "src/service.py", "type": "python", "size": 96 },
+      "evidence": [
+        {
+          "path": "src/service.py",
+          "artifact_type": "file",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:file:config.yaml",
+      "fact_type": "file",
+      "kind": "repository_file",
+      "source": "filesystem",
+      "attributes": { "path": "config.yaml", "type": "yaml", "size": 32 },
+      "evidence": [
+        {
+          "path": "config.yaml",
+          "artifact_type": "file",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:configuration:config.yaml",
+      "fact_type": "configuration",
+      "kind": "yaml",
+      "source": "configuration",
+      "attributes": { "path": "config.yaml", "type": "yaml" },
+      "evidence": [
+        {
+          "path": "config.yaml",
+          "artifact_type": "configuration",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:entity:python:module:src/main.py",
+      "fact_type": "entity",
+      "kind": "module",
+      "source": "entities",
+      "attributes": {
+        "entity_kind": "module",
+        "name": "main",
+        "qualified_name": "src/main.py",
+        "language": "python",
+        "path": "src/main.py",
+        "imports": ["service"]
+      },
+      "evidence": [
+        {
+          "path": "src/main.py",
+          "artifact_type": "python",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "symbol": "main"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:entity:python:module:src/service.py",
+      "fact_type": "entity",
+      "kind": "module",
+      "source": "entities",
+      "attributes": {
+        "entity_kind": "module",
+        "name": "service",
+        "qualified_name": "src/service.py",
+        "language": "python",
+        "path": "src/service.py",
+        "classes": ["Service"],
+        "functions": ["run"],
+        "imports": []
+      },
+      "evidence": [
+        {
+          "path": "src/service.py",
+          "artifact_type": "python",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "symbol": "service"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:entity:python:class:src/service.py::src/service.py::Service",
+      "fact_type": "entity",
+      "kind": "class",
+      "source": "entities",
+      "attributes": {
+        "entity_kind": "class",
+        "name": "Service",
+        "qualified_name": "src/service.py::Service",
+        "language": "python",
+        "path": "src/service.py",
+        "line_start": 4,
+        "methods": ["run"]
+      },
+      "evidence": [
+        {
+          "path": "src/service.py",
+          "artifact_type": "python",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "line_start": 4,
+          "symbol": "Service"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:entity:python:function:src/service.py::src/service.py::run",
+      "fact_type": "entity",
+      "kind": "function",
+      "source": "entities",
+      "attributes": {
+        "entity_kind": "function",
+        "name": "run",
+        "qualified_name": "src/service.py::run",
+        "language": "python",
+        "path": "src/service.py",
+        "line_start": 9
+      },
+      "evidence": [
+        {
+          "path": "src/service.py",
+          "artifact_type": "python",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "line_start": 9,
+          "symbol": "run"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:entity:python:function:src/main.py::src/main.py::main",
+      "fact_type": "entity",
+      "kind": "function",
+      "source": "entities",
+      "attributes": {
+        "entity_kind": "function",
+        "name": "main",
+        "qualified_name": "src/main.py::main",
+        "language": "python",
+        "path": "src/main.py",
+        "line_start": 5
+      },
+      "evidence": [
+        {
+          "path": "src/main.py",
+          "artifact_type": "python",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "line_start": 5,
+          "symbol": "main"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:import:src/main.py:1:import:src.service",
+      "fact_type": "import",
+      "kind": "import",
+      "source": "python",
+      "attributes": {
+        "path": "src/main.py",
+        "module": "src.service",
+        "kind": "import",
+        "language": "python",
+        "line": 1
+      },
+      "evidence": [
+        {
+          "path": "src/main.py",
+          "artifact_type": "python",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "line_start": 1,
+          "symbol": "src.service"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:import:src/main.py:2:import:os",
+      "fact_type": "import",
+      "kind": "import",
+      "source": "python",
+      "attributes": {
+        "path": "src/main.py",
+        "module": "os",
+        "kind": "import",
+        "language": "python",
+        "line": 2
+      },
+      "evidence": [
+        {
+          "path": "src/main.py",
+          "artifact_type": "python",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "line_start": 2,
+          "symbol": "os"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:import:src/main.py:3:import_from:src.service",
+      "fact_type": "import",
+      "kind": "import_from",
+      "source": "python",
+      "attributes": {
+        "path": "src/main.py",
+        "module": "src.service",
+        "kind": "import_from",
+        "language": "python",
+        "line": 3,
+        "names": ["run"]
+      },
+      "evidence": [
+        {
+          "path": "src/main.py",
+          "artifact_type": "python",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "line_start": 3,
+          "symbol": "src.service"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:dependency:pyproject.toml:dependencies:jsonschema",
+      "fact_type": "dependency",
+      "kind": "dependencies",
+      "source": "dependencies",
+      "attributes": {
+        "name": "jsonschema",
+        "source": "pyproject.toml",
+        "section": "dependencies"
+      },
+      "evidence": [
+        {
+          "path": "pyproject.toml",
+          "artifact_type": "file",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:artifact:agents:agent_definition:.claude/agents/fixture-agent.md",
+      "fact_type": "artifact",
+      "kind": "agent_definition",
+      "source": "agents",
+      "attributes": {
+        "path": ".claude/agents/fixture-agent.md",
+        "type": "agent_definition"
+      },
+      "evidence": [
+        {
+          "path": ".claude/agents/fixture-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:artifact:agents:agent_command:.claude/commands/fixture-command.md",
+      "fact_type": "artifact",
+      "kind": "agent_command",
+      "source": "agents",
+      "attributes": {
+        "path": ".claude/commands/fixture-command.md",
+        "type": "agent_command"
+      },
+      "evidence": [
+        {
+          "path": ".claude/commands/fixture-command.md",
+          "artifact_type": "agent_definition",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:interaction:triggers:fact:artifact:agents:agent_command:.claude/commands/fixture-command.md:fact:artifact:agents:agent_definition:.claude/agents/fixture-agent.md",
+      "fact_type": "interaction",
+      "kind": "triggers",
+      "source": "interactions",
+      "attributes": {
+        "source_fact_id": "fact:artifact:agents:agent_command:.claude/commands/fixture-command.md",
+        "target_fact_id": "fact:artifact:agents:agent_definition:.claude/agents/fixture-agent.md",
+        "source_path": ".claude/commands/fixture-command.md",
+        "target_path": ".claude/agents/fixture-agent.md",
+        "relation": "triggers",
+        "statement": "spawned_by"
+      },
+      "evidence": [
+        {
+          "path": ".claude/agents/fixture-agent.md",
+          "artifact_type": "agent_definition",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "line_start": 3
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:interaction:triggers:fact:artifact:agents:agent_command:.claude/commands/fixture-command.md:fact:file:missing-peer.md",
+      "fact_type": "interaction",
+      "kind": "triggers",
+      "source": "interactions",
+      "attributes": {
+        "source_fact_id": "fact:artifact:agents:agent_command:.claude/commands/fixture-command.md",
+        "target_fact_id": "fact:file:missing-peer.md",
+        "source_path": ".claude/commands/fixture-command.md",
+        "target_path": "missing-peer.md",
+        "relation": "triggers",
+        "statement": "spawns"
+      },
+      "evidence": [
+        {
+          "path": ".claude/commands/fixture-command.md",
+          "artifact_type": "agent_definition",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "line_start": 10
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:documentation:README.md",
+      "fact_type": "documentation",
+      "kind": "readme",
+      "source": "documentation",
+      "attributes": { "path": "README.md", "type": "readme" },
+      "evidence": [
+        {
+          "path": "README.md",
+          "artifact_type": "documentation",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "fact_id": "fact:test:test_file:src/test_service.py",
+      "fact_type": "test",
+      "kind": "test_file",
+      "source": "tests",
+      "attributes": { "path": "src/test_service.py", "type": "test_file" },
+      "evidence": [
+        {
+          "path": "src/test_service.py",
+          "artifact_type": "test",
+          "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    }
+  ],
+  "analyzers": [{ "name": "repository-intelligence", "version": "0.2.0" }]
+}

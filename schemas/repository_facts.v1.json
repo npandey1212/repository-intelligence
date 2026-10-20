@@ -1,0 +1,345 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/repository_facts.v1.json",
+  "title": "repository_facts.v1",
+  "description": "Deterministic inventory of what exists in a repository snapshot, with evidence pointers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "snapshot",
+    "repository",
+    "entities",
+    "python",
+    "configuration",
+    "dependencies",
+    "agents",
+    "mcp",
+    "documentation",
+    "tests",
+    "analyzers"
+  ],
+  "$defs": {
+    "EvidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Where a fact was observed (provenance only; not interpretation).",
+      "required": ["path", "artifact_type", "commit"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Repository-relative source path (never absolute)."
+        },
+        "artifact_type": {
+          "type": "string",
+          "enum": [
+            "python",
+            "configuration",
+            "agent_definition",
+            "mcp_definition",
+            "documentation",
+            "test",
+            "file",
+            "directory"
+          ]
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$",
+          "description": "Must equal snapshot.commit_sha."
+        },
+        "line_start": { "type": "integer", "minimum": 1 },
+        "line_end": { "type": "integer", "minimum": 1 },
+        "symbol": { "type": "string", "minLength": 1 }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "repository_facts.v1"
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit_sha", "snapshot_id", "repository_url"],
+      "properties": {
+        "commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$",
+          "description": "M1 commit SHA this facts document is bound to."
+        },
+        "snapshot_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repository_url": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["files", "directories"],
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "type"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "type": { "type": "string", "minLength": 1 },
+              "size": { "type": ["integer", "null"], "minimum": 0 }
+            }
+          }
+        },
+        "directories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "entities": {
+      "type": "array",
+      "description": "Language-neutral entities with stable qualified identity for downstream graph construction.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "entity_kind",
+          "name",
+          "qualified_name",
+          "language",
+          "path",
+          "evidence"
+        ],
+        "properties": {
+          "entity_kind": {
+            "type": "string",
+            "enum": ["module", "class", "function"]
+          },
+          "name": { "type": "string", "minLength": 1 },
+          "qualified_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Stable identity: path for modules; path::name for class/function."
+          },
+          "language": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "minLength": 1 },
+          "line_start": { "type": "integer", "minimum": 1 },
+          "line_end": { "type": "integer", "minimum": 1 },
+          "evidence": { "$ref": "#/$defs/EvidenceRef" }
+        }
+      }
+    },
+    "python": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modules", "classes", "functions", "imports"],
+      "properties": {
+        "modules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "name",
+              "entity_kind",
+              "qualified_name",
+              "language",
+              "evidence"
+            ],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "name": { "type": "string", "minLength": 1 },
+              "entity_kind": { "type": "string", "const": "module" },
+              "qualified_name": { "type": "string", "minLength": 1 },
+              "language": { "type": "string", "minLength": 1 },
+              "classes": { "type": "array", "items": { "type": "string" } },
+              "functions": { "type": "array", "items": { "type": "string" } },
+              "imports": { "type": "array", "items": { "type": "string" } },
+              "parse_error": { "type": "boolean" },
+              "evidence": { "$ref": "#/$defs/EvidenceRef" }
+            }
+          }
+        },
+        "classes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "symbol",
+              "name",
+              "kind",
+              "entity_kind",
+              "qualified_name",
+              "language",
+              "line",
+              "line_start",
+              "evidence"
+            ],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "symbol": { "type": "string", "minLength": 1 },
+              "name": { "type": "string", "minLength": 1 },
+              "kind": { "type": "string", "const": "class" },
+              "entity_kind": { "type": "string", "const": "class" },
+              "qualified_name": { "type": "string", "minLength": 1 },
+              "language": { "type": "string", "minLength": 1 },
+              "line": { "type": "integer", "minimum": 1 },
+              "line_start": { "type": "integer", "minimum": 1 },
+              "line_end": { "type": "integer", "minimum": 1 },
+              "methods": { "type": "array", "items": { "type": "string" } },
+              "evidence": { "$ref": "#/$defs/EvidenceRef" }
+            }
+          }
+        },
+        "functions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "symbol",
+              "name",
+              "kind",
+              "entity_kind",
+              "qualified_name",
+              "language",
+              "line",
+              "line_start",
+              "evidence"
+            ],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "symbol": { "type": "string", "minLength": 1 },
+              "name": { "type": "string", "minLength": 1 },
+              "kind": { "type": "string", "const": "function" },
+              "entity_kind": { "type": "string", "const": "function" },
+              "qualified_name": { "type": "string", "minLength": 1 },
+              "language": { "type": "string", "minLength": 1 },
+              "line": { "type": "integer", "minimum": 1 },
+              "line_start": { "type": "integer", "minimum": 1 },
+              "line_end": { "type": "integer", "minimum": 1 },
+              "evidence": { "$ref": "#/$defs/EvidenceRef" }
+            }
+          }
+        },
+        "imports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "module", "kind", "line", "evidence"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "module": { "type": "string" },
+              "kind": { "type": "string", "enum": ["import", "import_from"] },
+              "language": { "type": "string" },
+              "line": { "type": "integer", "minimum": 1 },
+              "names": { "type": "array", "items": { "type": "string" } },
+              "evidence": { "$ref": "#/$defs/EvidenceRef" }
+            }
+          }
+        }
+      }
+    },
+    "configuration": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "type", "evidence"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "minLength": 1 },
+          "contains_sensitive_values": { "type": "boolean" },
+          "top_level_keys": { "type": "array", "items": { "type": "string" } },
+          "parse_status": { "type": "string", "enum": ["ok", "error"] },
+          "evidence": { "$ref": "#/$defs/EvidenceRef" }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "source", "evidence"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "source": { "type": "string", "minLength": 1 },
+          "section": { "type": "string" },
+          "evidence": { "$ref": "#/$defs/EvidenceRef" }
+        }
+      }
+    },
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "type", "evidence"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "minLength": 1 },
+          "evidence": { "$ref": "#/$defs/EvidenceRef" }
+        }
+      }
+    },
+    "mcp": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "type", "evidence"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "minLength": 1 },
+          "evidence": { "$ref": "#/$defs/EvidenceRef" }
+        }
+      }
+    },
+    "documentation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "type", "evidence"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "minLength": 1 },
+          "evidence": { "$ref": "#/$defs/EvidenceRef" }
+        }
+      }
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "type", "evidence"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "minLength": 1 },
+          "functions": { "type": "array", "items": { "type": "string" } },
+          "classes": { "type": "array", "items": { "type": "string" } },
+          "evidence": { "$ref": "#/$defs/EvidenceRef" }
+        }
+      }
+    },
+    "analyzers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "repository_snapshot.v1",
+  "repository": {
+    "name": "sample-Agentic-Ai-Data-Operations",
+    "url": "https://github.com/aws-samples/sample-Agentic-Ai-Data-Operations.git"
+  },
+  "snapshot": {
+    "ref": "demo/before-onboarding",
+    "commit_sha": "f57598215e18d759679a5e194982661f16b67c57",
+    "commit_short_sha": "f575982",
+    "captured_at": "2026-09-22T11:46:03.557535+00:00"
+  },
+  "workspace": {
+    "working_tree_clean": true
+  },
+  "analyzer": {
+    "name": "repository-intelligence",
+    "version": "0.2.0"
+  }
+}

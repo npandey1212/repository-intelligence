@@ -1,0 +1,152 @@
+flowchart TD
+    node_001["data-onboarding-agent"]
+    node_002["ontology-staging-agent"]
+    node_003["environment-setup-agent"]
+    node_004["glue-athena"]
+    node_005["create-database"]
+    node_006["get-table"]
+    node_007["get-tables"]
+    node_008["create-crawler"]
+    node_009["start-crawler"]
+    node_010["start-job-run"]
+    node_011["get-job-run"]
+    node_012["athena-query"]
+    node_013["lakeformation"]
+    node_014["create-lf-tag"]
+    node_015["list-lf-tags"]
+    node_016["add-lf-tags-to-resource"]
+    node_017["remove-lf-tags-from-resource"]
+    node_018["get-resource-lf-tags"]
+    node_019["grant-permissions"]
+    node_020["revoke-permissions"]
+    node_021["batch-grant-permissions"]
+    node_022["get-lf-tag"]
+    node_023["iam"]
+    node_024["list-roles"]
+    node_025["simulate-principal-policy"]
+    node_026["list-role-policies"]
+    node_027["get-role-policy"]
+    node_028["put-role-policy"]
+    node_029["create-role"]
+    node_030["list-users"]
+    node_031["get-user"]
+    node_032["attach-user-policy"]
+    node_033["attach-group-policy"]
+    node_034["cloudtrail"]
+    node_035["lookup-events"]
+    node_036["lake-query"]
+    node_037["list-event-data-stores"]
+    node_038["get-query-results"]
+    node_039["get-query-status"]
+    node_040["redshift"]
+    node_041["list-clusters"]
+    node_042["list-databases"]
+    node_043["list-schemas"]
+    node_044["list-tables"]
+    node_045["list-columns"]
+    node_046["execute-query"]
+    node_047["core"]
+    node_048["s3-operations"]
+    node_049["kms-operations"]
+    node_050["secrets-manager"]
+    node_051["s3-tables"]
+    node_052["s3-tables-operations"]
+    node_053["pii-detection"]
+    node_054["detect-pii-in-table"]
+    node_055["scan-database-for-pii"]
+    node_056["create-lf-tags"]
+    node_057["get-pii-columns"]
+    node_058["apply-column-security"]
+    node_059["get-pii-report"]
+    node_060["sagemaker-catalog"]
+    node_061["put-custom-metadata"]
+    node_062["get-custom-metadata"]
+    node_063["list-tables-with-metadata"]
+    node_064["search-metadata"]
+    node_065["delete-custom-metadata"]
+    node_066["lambda"]
+    node_067["aws-lambdafn-lf-access-grant-new"]
+    node_068["aws-lambda-lf-revoke-access-new"]
+    node_069["spark-on-aws-lambda"]
+    node_070["tagging-finder"]
+    node_071["lf-access-grant"]
+    node_072["cloudwatch"]
+    node_073["logs"]
+    node_074["metrics"]
+    node_075["alarms"]
+    node_076["dashboards"]
+    node_077["cost-explorer"]
+    node_078["cost-and-usage"]
+    node_079["dynamodb"]
+    node_080["table-crud"]
+    node_081["query"]
+    node_082["scan"]
+    node_083["sns-sqs"]
+    node_084["eventbridge"]
+    node_085["stepfunctions"]
+    node_005 -->|EXPOSED_BY| node_004
+    node_006 -->|EXPOSED_BY| node_004
+    node_007 -->|EXPOSED_BY| node_004
+    node_008 -->|EXPOSED_BY| node_004
+    node_009 -->|EXPOSED_BY| node_004
+    node_010 -->|EXPOSED_BY| node_004
+    node_011 -->|EXPOSED_BY| node_004
+    node_012 -->|EXPOSED_BY| node_004
+    node_014 -->|EXPOSED_BY| node_013
+    node_015 -->|EXPOSED_BY| node_013
+    node_016 -->|EXPOSED_BY| node_013
+    node_017 -->|EXPOSED_BY| node_013
+    node_018 -->|EXPOSED_BY| node_013
+    node_019 -->|EXPOSED_BY| node_013
+    node_020 -->|EXPOSED_BY| node_013
+    node_021 -->|EXPOSED_BY| node_013
+    node_022 -->|EXPOSED_BY| node_013
+    node_024 -->|EXPOSED_BY| node_023
+    node_025 -->|EXPOSED_BY| node_023
+    node_026 -->|EXPOSED_BY| node_023
+    node_027 -->|EXPOSED_BY| node_023
+    node_028 -->|EXPOSED_BY| node_023
+    node_029 -->|EXPOSED_BY| node_023
+    node_030 -->|EXPOSED_BY| node_023
+    node_031 -->|EXPOSED_BY| node_023
+    node_032 -->|EXPOSED_BY| node_023
+    node_033 -->|EXPOSED_BY| node_023
+    node_035 -->|EXPOSED_BY| node_034
+    node_036 -->|EXPOSED_BY| node_034
+    node_037 -->|EXPOSED_BY| node_034
+    node_038 -->|EXPOSED_BY| node_034
+    node_039 -->|EXPOSED_BY| node_034
+    node_041 -->|EXPOSED_BY| node_040
+    node_042 -->|EXPOSED_BY| node_040
+    node_043 -->|EXPOSED_BY| node_040
+    node_044 -->|EXPOSED_BY| node_040
+    node_045 -->|EXPOSED_BY| node_040
+    node_046 -->|EXPOSED_BY| node_040
+    node_048 -->|EXPOSED_BY| node_047
+    node_049 -->|EXPOSED_BY| node_047
+    node_050 -->|EXPOSED_BY| node_047
+    node_052 -->|EXPOSED_BY| node_051
+    node_054 -->|EXPOSED_BY| node_053
+    node_055 -->|EXPOSED_BY| node_053
+    node_056 -->|EXPOSED_BY| node_053
+    node_057 -->|EXPOSED_BY| node_053
+    node_058 -->|EXPOSED_BY| node_053
+    node_059 -->|EXPOSED_BY| node_053
+    node_061 -->|EXPOSED_BY| node_060
+    node_062 -->|EXPOSED_BY| node_060
+    node_063 -->|EXPOSED_BY| node_060
+    node_064 -->|EXPOSED_BY| node_060
+    node_065 -->|EXPOSED_BY| node_060
+    node_067 -->|EXPOSED_BY| node_066
+    node_068 -->|EXPOSED_BY| node_066
+    node_069 -->|EXPOSED_BY| node_066
+    node_070 -->|EXPOSED_BY| node_066
+    node_071 -->|EXPOSED_BY| node_066
+    node_073 -->|EXPOSED_BY| node_072
+    node_074 -->|EXPOSED_BY| node_072
+    node_075 -->|EXPOSED_BY| node_072
+    node_076 -->|EXPOSED_BY| node_072
+    node_078 -->|EXPOSED_BY| node_077
+    node_080 -->|EXPOSED_BY| node_079
+    node_081 -->|EXPOSED_BY| node_079
+    node_082 -->|EXPOSED_BY| node_079

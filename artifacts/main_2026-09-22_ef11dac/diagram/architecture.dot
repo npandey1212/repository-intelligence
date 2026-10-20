@@ -1,0 +1,21 @@
+digraph architecture {
+  node_001 [label="02-deep-agent-logging"];
+  node_002 [label="02-deploy-agentcore-gateway"];
+  node_003 [label="03-deploy-agentcore-runtime"];
+  node_004 [label="agent-log"];
+  node_005 [label="dag-agent"];
+  node_006 [label="Data Onboarding Agent"];
+  node_007 [label="iac-agent"];
+  node_008 [label="metadata-agent"];
+  node_009 [label="ontology-agent"];
+  node_010 [label="ontology-staging-agent"];
+  node_011 [label="quality-agent"];
+  node_012 [label="transformation-agent"];
+  node_006 -> node_005 [label="TRIGGERS"];
+  node_006 -> node_007 [label="TRIGGERS"];
+  node_006 -> node_008 [label="TRIGGERS"];
+  node_006 -> node_009 [label="TRIGGERS"];
+  node_006 -> node_010 [label="TRIGGERS"];
+  node_006 -> node_011 [label="TRIGGERS"];
+  node_006 -> node_012 [label="TRIGGERS"];
+}

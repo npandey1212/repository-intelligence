@@ -1,0 +1,2638 @@
+{
+  "schema_version": "diagram_spec.v1",
+  "diagram_type": "AGENT_TOOL_MCP",
+  "title": "How do the agents, tools, and MCP servers interact? (85 component(s))",
+  "question": "How do the agents, tools, and MCP servers interact?",
+  "repository_scope": "sample-Agentic-Ai-Data-Operations",
+  "commit_scope": "ef11dac8618b6344d6a5e4add6ef51cd2811d7e0",
+  "nodes": [
+    {
+      "id": "data-onboarding-agent",
+      "label": "data-onboarding-agent",
+      "node_type": "agent",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "README.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "ontology-staging-agent",
+      "label": "ontology-staging-agent",
+      "node_type": "agent",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "README.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "environment-setup-agent",
+      "label": "environment-setup-agent",
+      "node_type": "agent",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "README.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "glue-athena",
+      "label": "glue-athena",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "create-database",
+      "label": "create-database",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-table",
+      "label": "get-table",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-tables",
+      "label": "get-tables",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "create-crawler",
+      "label": "create-crawler",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "start-crawler",
+      "label": "start-crawler",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "start-job-run",
+      "label": "start-job-run",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-job-run",
+      "label": "get-job-run",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "athena-query",
+      "label": "athena-query",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "lakeformation",
+      "label": "lakeformation",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "create-lf-tag",
+      "label": "create-lf-tag",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-lf-tags",
+      "label": "list-lf-tags",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "add-lf-tags-to-resource",
+      "label": "add-lf-tags-to-resource",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "remove-lf-tags-from-resource",
+      "label": "remove-lf-tags-from-resource",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-resource-lf-tags",
+      "label": "get-resource-lf-tags",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "grant-permissions",
+      "label": "grant-permissions",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "revoke-permissions",
+      "label": "revoke-permissions",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "batch-grant-permissions",
+      "label": "batch-grant-permissions",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-lf-tag",
+      "label": "get-lf-tag",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "iam",
+      "label": "iam",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "tool-registry/invariants.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-roles",
+      "label": "list-roles",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "simulate-principal-policy",
+      "label": "simulate-principal-policy",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "tool-registry/invariants.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-role-policies",
+      "label": "list-role-policies",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-role-policy",
+      "label": "get-role-policy",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "put-role-policy",
+      "label": "put-role-policy",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "create-role",
+      "label": "create-role",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-users",
+      "label": "list-users",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-user",
+      "label": "get-user",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "attach-user-policy",
+      "label": "attach-user-policy",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "attach-group-policy",
+      "label": "attach-group-policy",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "cloudtrail",
+      "label": "cloudtrail",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "tool-registry/invariants.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "lookup-events",
+      "label": "lookup-events",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "tool-registry/invariants.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "lake-query",
+      "label": "lake-query",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-event-data-stores",
+      "label": "list-event-data-stores",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-query-results",
+      "label": "get-query-results",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-query-status",
+      "label": "get-query-status",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "redshift",
+      "label": "redshift",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-clusters",
+      "label": "list-clusters",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-databases",
+      "label": "list-databases",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-schemas",
+      "label": "list-schemas",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-tables",
+      "label": "list-tables",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-columns",
+      "label": "list-columns",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "execute-query",
+      "label": "execute-query",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "core",
+      "label": "core",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "s3-operations",
+      "label": "s3-operations",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "kms-operations",
+      "label": "kms-operations",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "secrets-manager",
+      "label": "secrets-manager",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "s3-tables",
+      "label": "s3-tables",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "s3-tables-operations",
+      "label": "s3-tables-operations",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "pii-detection",
+      "label": "pii-detection",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "detect-pii-in-table",
+      "label": "detect-pii-in-table",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "scan-database-for-pii",
+      "label": "scan-database-for-pii",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "create-lf-tags",
+      "label": "create-lf-tags",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-pii-columns",
+      "label": "get-pii-columns",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "apply-column-security",
+      "label": "apply-column-security",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-pii-report",
+      "label": "get-pii-report",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "sagemaker-catalog",
+      "label": "sagemaker-catalog",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "put-custom-metadata",
+      "label": "put-custom-metadata",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-custom-metadata",
+      "label": "get-custom-metadata",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-tables-with-metadata",
+      "label": "list-tables-with-metadata",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "search-metadata",
+      "label": "search-metadata",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "delete-custom-metadata",
+      "label": "delete-custom-metadata",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "lambda",
+      "label": "lambda",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "aws-lambdafn-lf-access-grant-new",
+      "label": "aws-lambdafn-lf-access-grant-new",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "aws-lambda-lf-revoke-access-new",
+      "label": "aws-lambda-lf-revoke-access-new",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "spark-on-aws-lambda",
+      "label": "spark-on-aws-lambda",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "tagging-finder",
+      "label": "tagging-finder",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "lf-access-grant",
+      "label": "lf-access-grant",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "cloudwatch",
+      "label": "cloudwatch",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "logs",
+      "label": "logs",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "metrics",
+      "label": "metrics",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "alarms",
+      "label": "alarms",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "dashboards",
+      "label": "dashboards",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "cost-explorer",
+      "label": "cost-explorer",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "cost-and-usage",
+      "label": "cost-and-usage",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "dynamodb",
+      "label": "dynamodb",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": ".mcp.json",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "table-crud",
+      "label": "table-crud",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "query",
+      "label": "query",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "scan",
+      "label": "scan",
+      "node_type": "tool",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "sns-sqs",
+      "label": "sns-sqs",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "eventbridge",
+      "label": "eventbridge",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "stepfunctions",
+      "label": "stepfunctions",
+      "node_type": "mcp_server",
+      "classification": "observed",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "create-database-EXPOSED_BY-glue-athena",
+      "source": "create-database",
+      "target": "glue-athena",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-table-EXPOSED_BY-glue-athena",
+      "source": "get-table",
+      "target": "glue-athena",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-tables-EXPOSED_BY-glue-athena",
+      "source": "get-tables",
+      "target": "glue-athena",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "create-crawler-EXPOSED_BY-glue-athena",
+      "source": "create-crawler",
+      "target": "glue-athena",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "start-crawler-EXPOSED_BY-glue-athena",
+      "source": "start-crawler",
+      "target": "glue-athena",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "start-job-run-EXPOSED_BY-glue-athena",
+      "source": "start-job-run",
+      "target": "glue-athena",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-job-run-EXPOSED_BY-glue-athena",
+      "source": "get-job-run",
+      "target": "glue-athena",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "athena-query-EXPOSED_BY-glue-athena",
+      "source": "athena-query",
+      "target": "glue-athena",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "create-lf-tag-EXPOSED_BY-lakeformation",
+      "source": "create-lf-tag",
+      "target": "lakeformation",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-lf-tags-EXPOSED_BY-lakeformation",
+      "source": "list-lf-tags",
+      "target": "lakeformation",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "add-lf-tags-to-resource-EXPOSED_BY-lakeformation",
+      "source": "add-lf-tags-to-resource",
+      "target": "lakeformation",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "remove-lf-tags-from-resource-EXPOSED_BY-lakeformation",
+      "source": "remove-lf-tags-from-resource",
+      "target": "lakeformation",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-resource-lf-tags-EXPOSED_BY-lakeformation",
+      "source": "get-resource-lf-tags",
+      "target": "lakeformation",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "grant-permissions-EXPOSED_BY-lakeformation",
+      "source": "grant-permissions",
+      "target": "lakeformation",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "revoke-permissions-EXPOSED_BY-lakeformation",
+      "source": "revoke-permissions",
+      "target": "lakeformation",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "batch-grant-permissions-EXPOSED_BY-lakeformation",
+      "source": "batch-grant-permissions",
+      "target": "lakeformation",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-lf-tag-EXPOSED_BY-lakeformation",
+      "source": "get-lf-tag",
+      "target": "lakeformation",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-roles-EXPOSED_BY-iam",
+      "source": "list-roles",
+      "target": "iam",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "simulate-principal-policy-EXPOSED_BY-iam",
+      "source": "simulate-principal-policy",
+      "target": "iam",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "tool-registry/invariants.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-role-policies-EXPOSED_BY-iam",
+      "source": "list-role-policies",
+      "target": "iam",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-role-policy-EXPOSED_BY-iam",
+      "source": "get-role-policy",
+      "target": "iam",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "put-role-policy-EXPOSED_BY-iam",
+      "source": "put-role-policy",
+      "target": "iam",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "create-role-EXPOSED_BY-iam",
+      "source": "create-role",
+      "target": "iam",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-users-EXPOSED_BY-iam",
+      "source": "list-users",
+      "target": "iam",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-user-EXPOSED_BY-iam",
+      "source": "get-user",
+      "target": "iam",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "attach-user-policy-EXPOSED_BY-iam",
+      "source": "attach-user-policy",
+      "target": "iam",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "attach-group-policy-EXPOSED_BY-iam",
+      "source": "attach-group-policy",
+      "target": "iam",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "lookup-events-EXPOSED_BY-cloudtrail",
+      "source": "lookup-events",
+      "target": "cloudtrail",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "tool-registry/invariants.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "lake-query-EXPOSED_BY-cloudtrail",
+      "source": "lake-query",
+      "target": "cloudtrail",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-event-data-stores-EXPOSED_BY-cloudtrail",
+      "source": "list-event-data-stores",
+      "target": "cloudtrail",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-query-results-EXPOSED_BY-cloudtrail",
+      "source": "get-query-results",
+      "target": "cloudtrail",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-query-status-EXPOSED_BY-cloudtrail",
+      "source": "get-query-status",
+      "target": "cloudtrail",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-clusters-EXPOSED_BY-redshift",
+      "source": "list-clusters",
+      "target": "redshift",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-databases-EXPOSED_BY-redshift",
+      "source": "list-databases",
+      "target": "redshift",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-schemas-EXPOSED_BY-redshift",
+      "source": "list-schemas",
+      "target": "redshift",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-tables-EXPOSED_BY-redshift",
+      "source": "list-tables",
+      "target": "redshift",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-columns-EXPOSED_BY-redshift",
+      "source": "list-columns",
+      "target": "redshift",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "execute-query-EXPOSED_BY-redshift",
+      "source": "execute-query",
+      "target": "redshift",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "s3-operations-EXPOSED_BY-core",
+      "source": "s3-operations",
+      "target": "core",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "kms-operations-EXPOSED_BY-core",
+      "source": "kms-operations",
+      "target": "core",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "secrets-manager-EXPOSED_BY-core",
+      "source": "secrets-manager",
+      "target": "core",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "s3-tables-operations-EXPOSED_BY-s3-tables",
+      "source": "s3-tables-operations",
+      "target": "s3-tables",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "detect-pii-in-table-EXPOSED_BY-pii-detection",
+      "source": "detect-pii-in-table",
+      "target": "pii-detection",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "scan-database-for-pii-EXPOSED_BY-pii-detection",
+      "source": "scan-database-for-pii",
+      "target": "pii-detection",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "create-lf-tags-EXPOSED_BY-pii-detection",
+      "source": "create-lf-tags",
+      "target": "pii-detection",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-pii-columns-EXPOSED_BY-pii-detection",
+      "source": "get-pii-columns",
+      "target": "pii-detection",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "apply-column-security-EXPOSED_BY-pii-detection",
+      "source": "apply-column-security",
+      "target": "pii-detection",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-pii-report-EXPOSED_BY-pii-detection",
+      "source": "get-pii-report",
+      "target": "pii-detection",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "put-custom-metadata-EXPOSED_BY-sagemaker-catalog",
+      "source": "put-custom-metadata",
+      "target": "sagemaker-catalog",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "get-custom-metadata-EXPOSED_BY-sagemaker-catalog",
+      "source": "get-custom-metadata",
+      "target": "sagemaker-catalog",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "list-tables-with-metadata-EXPOSED_BY-sagemaker-catalog",
+      "source": "list-tables-with-metadata",
+      "target": "sagemaker-catalog",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "search-metadata-EXPOSED_BY-sagemaker-catalog",
+      "source": "search-metadata",
+      "target": "sagemaker-catalog",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "delete-custom-metadata-EXPOSED_BY-sagemaker-catalog",
+      "source": "delete-custom-metadata",
+      "target": "sagemaker-catalog",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "aws-lambdafn-lf-access-grant-new-EXPOSED_BY-lambda",
+      "source": "aws-lambdafn-lf-access-grant-new",
+      "target": "lambda",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "aws-lambda-lf-revoke-access-new-EXPOSED_BY-lambda",
+      "source": "aws-lambda-lf-revoke-access-new",
+      "target": "lambda",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "spark-on-aws-lambda-EXPOSED_BY-lambda",
+      "source": "spark-on-aws-lambda",
+      "target": "lambda",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "tagging-finder-EXPOSED_BY-lambda",
+      "source": "tagging-finder",
+      "target": "lambda",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        },
+        {
+          "path": "MCP_GUARDRAILS.md",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "lf-access-grant-EXPOSED_BY-lambda",
+      "source": "lf-access-grant",
+      "target": "lambda",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "logs-EXPOSED_BY-cloudwatch",
+      "source": "logs",
+      "target": "cloudwatch",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "metrics-EXPOSED_BY-cloudwatch",
+      "source": "metrics",
+      "target": "cloudwatch",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "alarms-EXPOSED_BY-cloudwatch",
+      "source": "alarms",
+      "target": "cloudwatch",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "dashboards-EXPOSED_BY-cloudwatch",
+      "source": "dashboards",
+      "target": "cloudwatch",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "cost-and-usage-EXPOSED_BY-cost-explorer",
+      "source": "cost-and-usage",
+      "target": "cost-explorer",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "table-crud-EXPOSED_BY-dynamodb",
+      "source": "table-crud",
+      "target": "dynamodb",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "query-EXPOSED_BY-dynamodb",
+      "source": "query",
+      "target": "dynamodb",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    },
+    {
+      "id": "scan-EXPOSED_BY-dynamodb",
+      "source": "scan",
+      "target": "dynamodb",
+      "relationship_type": "EXPOSED_BY",
+      "classification": "derived",
+      "confidence": "high",
+      "evidence_refs": [
+        {
+          "path": "tool-registry/servers.yaml",
+          "line_start": null,
+          "line_end": null
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "id": "group-agent",
+      "label": "agent(s)",
+      "node_ids": [
+        "data-onboarding-agent",
+        "ontology-staging-agent",
+        "environment-setup-agent"
+      ]
+    },
+    {
+      "id": "group-mcp_server",
+      "label": "mcp_server(s)",
+      "node_ids": [
+        "glue-athena",
+        "lakeformation",
+        "iam",
+        "cloudtrail",
+        "redshift",
+        "core",
+        "s3-tables",
+        "pii-detection",
+        "sagemaker-catalog",
+        "lambda",
+        "cloudwatch",
+        "cost-explorer",
+        "dynamodb",
+        "sns-sqs",
+        "eventbridge",
+        "stepfunctions"
+      ]
+    },
+    {
+      "id": "group-tool",
+      "label": "tool(s)",
+      "node_ids": [
+        "create-database",
+        "get-table",
+        "get-tables",
+        "create-crawler",
+        "start-crawler",
+        "start-job-run",
+        "get-job-run",
+        "athena-query",
+        "create-lf-tag",
+        "list-lf-tags",
+        "add-lf-tags-to-resource",
+        "remove-lf-tags-from-resource",
+        "get-resource-lf-tags",
+        "grant-permissions",
+        "revoke-permissions",
+        "batch-grant-permissions",
+        "get-lf-tag",
+        "list-roles",
+        "simulate-principal-policy",
+        "list-role-policies",
+        "get-role-policy",
+        "put-role-policy",
+        "create-role",
+        "list-users",
+        "get-user",
+        "attach-user-policy",
+        "attach-group-policy",
+        "lookup-events",
+        "lake-query",
+        "list-event-data-stores",
+        "get-query-results",
+        "get-query-status",
+        "list-clusters",
+        "list-databases",
+        "list-schemas",
+        "list-tables",
+        "list-columns",
+        "execute-query",
+        "s3-operations",
+        "kms-operations",
+        "secrets-manager",
+        "s3-tables-operations",
+        "detect-pii-in-table",
+        "scan-database-for-pii",
+        "create-lf-tags",
+        "get-pii-columns",
+        "apply-column-security",
+        "get-pii-report",
+        "put-custom-metadata",
+        "get-custom-metadata",
+        "list-tables-with-metadata",
+        "search-metadata",
+        "delete-custom-metadata",
+        "aws-lambdafn-lf-access-grant-new",
+        "aws-lambda-lf-revoke-access-new",
+        "spark-on-aws-lambda",
+        "tagging-finder",
+        "lf-access-grant",
+        "logs",
+        "metrics",
+        "alarms",
+        "dashboards",
+        "cost-and-usage",
+        "table-crud",
+        "query",
+        "scan"
+      ]
+    }
+  ],
+  "legend": [
+    {
+      "kind": "node_type",
+      "term": "agent",
+      "meaning": "autonomous actor that drives the workflow"
+    },
+    {
+      "kind": "node_type",
+      "term": "mcp_server",
+      "meaning": "server exposing tools over MCP"
+    },
+    {
+      "kind": "node_type",
+      "term": "tool",
+      "meaning": "operation exposed to an agent"
+    },
+    {
+      "kind": "relationship_type",
+      "term": "EXPOSED_BY",
+      "meaning": "exposed through a server"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "path": "README.md",
+      "line_start": null,
+      "line_end": null
+    },
+    {
+      "path": "tool-registry/servers.yaml",
+      "line_start": null,
+      "line_end": null
+    },
+    {
+      "path": "tool-registry/invariants.yaml",
+      "line_start": null,
+      "line_end": null
+    },
+    {
+      "path": "MCP_GUARDRAILS.md",
+      "line_start": null,
+      "line_end": null
+    },
+    {
+      "path": ".mcp.json",
+      "line_start": null,
+      "line_end": null
+    }
+  ],
+  "uncertainties": [],
+  "status": "complete"
+}
