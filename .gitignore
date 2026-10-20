@@ -11,7 +11,7 @@ __pycache__/
 
 # Isolated local environment (created by `python -m venv .venv`)
 .venv/
-
+venv312/
 # Runtime execution telemetry (Agent traces — regenerable)
 runtime/
 
